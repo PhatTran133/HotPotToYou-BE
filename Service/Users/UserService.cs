@@ -28,6 +28,14 @@ namespace Service.Users
             return await _userRepository.CreateUser(user);
         }
 
-        
+        public async Task<List<UserResponseModel>> GetUsers(string? search, string? gender, string? sortBy, int pageIndex, int pageSize)
+        {
+            return await _userRepository.GetUsers(search, gender, sortBy, pageIndex, pageSize);
+        }
+
+        public async Task<string> DeleteUser(int id)
+        {
+            return await _userRepository.DeleteUser(id);
+        }
     }
 }

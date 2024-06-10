@@ -173,3 +173,4 @@ D:\Project C#\SWD392\Demo1\HotPotToYou\HotPotToYou\obj\Debug\net7.0\HotPotToYou.
 D:\Project C#\SWD392\Demo1\HotPotToYou\HotPotToYou\obj\Debug\net7.0\HotPotToYou.genruntimeconfig.cache
 D:\Project C#\SWD392\Demo1\HotPotToYou\HotPotToYou\obj\Debug\net7.0\ref\HotPotToYou.dll
 D:\Project C#\SWD392\Demo1\HotPotToYou\HotPotToYou\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\Project C#\SWD392\HotPotToYou\HotPotToYou\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

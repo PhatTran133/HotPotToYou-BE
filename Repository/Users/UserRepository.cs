@@ -5,6 +5,7 @@ using Repository.DbContexts;
 using Repository.Entity;
 using Repository.Models.RequestModels;
 using Repository.Models.ResponseModels;
+using Repository.Service.Paging;
 using Service.CurrentUser;
 using Service.Password;
 using System;
@@ -78,6 +79,56 @@ namespace Repository.Users
                 CreateDate = DateTime.Now
             };
             _context.User.Add(newUser);
+            if (await _context.SaveChangesAsync() > 0)
+                return "Create Successfully";
+            else
+                return "Create Failed";
+        }
+        public async Task<List<UserResponseModel>> GetUsers(string? search,string? gender, string? sortBy, int pageIndex, int pageSize)
+        {
+
+            IQueryable<UserEntity> users = _context.User.Include(x => x.Role).Where(x => x.DeleteDate == null);
+
+
+            //SEARCH THEO NAME
+            if (!string.IsNullOrEmpty(search))
+            {
+                users = users.Where(x => x.Name.Contains(search));
+            }
+
+            //FILTER THEO GENDER
+            if (!string.IsNullOrEmpty(gender))
+            {
+                users = users.Where(x => x.Gender.Equals(gender));
+            }
+
+            //SORT THEO NAME
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy.Equals("asc"))
+                {
+                    users = users.OrderBy(x => x.Name);
+                }
+                else if (sortBy.Equals("desc"))
+                {
+                    users = users.OrderByDescending(x => x.Name);
+                }
+            }
+
+            var paginatedUsers = PaginatedList<UserEntity>.Create(users, pageIndex, pageSize);
+
+            return _mapper.Map<List<UserResponseModel>>(paginatedUsers);
+        }
+        public async Task<string> DeleteUser(int id)
+        {
+            var user = await _context.User.SingleOrDefaultAsync(x => x.ID == id);
+            if (user == null)
+                throw new Exception("User is not found");
+
+            user.DeleteByID = _currentUserService.UserId;
+            user.DeleteDate = DateTime.Now;
+
+            _context.Update(user);
             if (await _context.SaveChangesAsync() > 0)
                 return "Create Successfully";
             else

@@ -15,6 +15,9 @@ namespace Repository.Users
         {
             CreateMap<UserEntity, LoginResponseModel>()
                 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Name));
+
+            CreateMap<UserEntity, UserResponseModel>()
+                .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.Name));
         }
     }
 }
