@@ -1,0 +1,14 @@
+D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\bin\Release\net7.0\Repository.deps.json
+D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\bin\Release\net7.0\Repository.runtimeconfig.json
+D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\bin\Release\net7.0\Repository.dll
+D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\bin\Release\net7.0\Repository.pdb
+D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\obj\Release\net7.0\Repository.csproj.AssemblyReference.cache
+D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\obj\Release\net7.0\Repository.GeneratedMSBuildEditorConfig.editorconfig
+D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\obj\Release\net7.0\Repository.AssemblyInfoInputs.cache
+D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\obj\Release\net7.0\Repository.AssemblyInfo.cs
+D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\obj\Release\net7.0\Repository.csproj.CoreCompileInputs.cache
+D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\obj\Release\net7.0\Repository.dll
+D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\obj\Release\net7.0\refint\Repository.dll
+D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\obj\Release\net7.0\Repository.pdb
+D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\obj\Release\net7.0\Repository.genruntimeconfig.cache
+D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\obj\Release\net7.0\ref\Repository.dll
