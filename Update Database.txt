@@ -1,0 +1,3 @@
+Add-Migration -Name v1 -StartupProject "HotPotToYou" -Project "Repository"
+
+Update-Database -StartupProject "HotPotToYou" -Project "Repository"
