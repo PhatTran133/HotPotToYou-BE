@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Repository.Entity
 {
     [Table("UtensilDetai")]
-    public class UtensilDetailEntity : EntityBase
+    public class UtensilDetailEntity 
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
