@@ -5,11 +5,13 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Repository.Customers;
 using Repository.DbContexts;
+using Repository.HotPots;
 using Repository.HotPotType;
 using Repository.Roles;
 using Repository.Users;
 using Service.CurrentUser;
 using Service.Customers;
+using Service.HotPots;
 using Service.HotPotType;
 using Service.Password;
 using Service.Roles;
@@ -28,7 +30,7 @@ builder.Services.AddEndpointsApiExplorer();
 #region New Config
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Server")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("local")));
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -96,8 +98,12 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+
 builder.Services.AddScoped<IHotPotTypeRepository, HotPotTypeRepository>();
 builder.Services.AddScoped<IHotPotTypeService, HotPotTypeService>();
+
+builder.Services.AddScoped<IHotPotRepository, HotPotRepository>();
+builder.Services.AddScoped<IHotPotService, HotPotService>();
 
 #endregion
 

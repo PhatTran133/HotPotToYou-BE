@@ -21,17 +21,18 @@ namespace HotPotToYou.Controllers
         }
 
         [HttpPost("role")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<Guid>), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<Guid>>> CreateRole(
+        public async Task<ActionResult<JsonResponse<string>>> CreateRole(
             [FromBody] RoleRequestModel role)
         {
-            var result = await _roleService.CreateRole(role);
-            return Ok(new JsonResponse<string>(result));
+            try
+            {
+                var result = await _roleService.CreateRole(role);
+                return Ok(new JsonResponse<string>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
         }
     }
 }

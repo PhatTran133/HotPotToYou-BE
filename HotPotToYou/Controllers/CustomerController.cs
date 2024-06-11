@@ -1,7 +1,9 @@
 ﻿using HotPotToYou.Controllers.ResponseType;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models.RequestModels;
+using Repository.Models.ResponseModels;
 using Service.Customers;
 using System.Net.Mime;
 
@@ -17,19 +19,52 @@ namespace HotPotToYou.Controllers
         {
             _customerService = customerService;
         }
-
+        [AllowAnonymous]
         [HttpPost("customer/register")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<Guid>), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<Guid>>> CreateCustomer(
             [FromBody] CreateCustomerRequestModel customer)
         {
-            var result = await _customerService.CreateCustomer(customer);
-            return Ok(new JsonResponse<string>(result));
+            try
+            {
+                var result = await _customerService.CreateCustomer(customer);
+                return Ok(new JsonResponse<string>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+            
+        }
+
+        [HttpGet("customer/get-customer-by-id")]
+        public async Task<ActionResult<JsonResponse<CustomerResponseModel>>> GetCustomerByID(int id)
+        {
+            try
+            {
+                var result = await _customerService.GetCustomerByID(id);
+                return Ok(new JsonResponse<CustomerResponseModel>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+            
+        }
+
+        [HttpPost("customer")]
+        public async Task<ActionResult<JsonResponse<Guid>>> UpdateCustomer(
+            [FromBody] UpdateCustomerRequestModel customer)
+        {
+            try
+            {
+                var result = await _customerService.UpdateCustomer(customer);
+                return Ok(new JsonResponse<string>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+
         }
     }
 }
