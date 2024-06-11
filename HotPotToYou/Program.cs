@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Repository.Customers;
 using Repository.DbContexts;
 using Repository.Roles;
 using Repository.Users;
 using Service.CurrentUser;
+using Service.Customers;
 using Service.Password;
 using Service.Roles;
 using Service.Users;
@@ -90,7 +92,8 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
-
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 #endregion
 
 var app = builder.Build();

@@ -10,8 +10,9 @@ using System.Net.Mime;
 
 namespace HotPotToYou.Controllers
 {
+    [Route("api/v1")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -47,7 +48,7 @@ namespace HotPotToYou.Controllers
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<Guid>>> CreateUser(
-            [FromBody] UserRequestModel user)
+            [FromBody] CreateUserRequestModel user)
         {
             var result = await _userService.CreateUser(user);
             return Ok(new JsonResponse<string>(result));
@@ -64,6 +65,20 @@ namespace HotPotToYou.Controllers
         {
             var result = await _userService.GetUsers(search, gender, sortBy, pageIndex, pageSize);
             return Ok(new JsonResponse<List<UserResponseModel>>(result));
+        }
+
+        [HttpPost("user/update")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(typeof(JsonResponse<Guid>), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<JsonResponse<Guid>>> UpdateUser(
+            [FromBody] UpdateUserRequestModel user)
+        {
+            var result = await _userService.UpdateUser(user);
+            return Ok(new JsonResponse<string>(result));
         }
 
         [HttpDelete("user")]
