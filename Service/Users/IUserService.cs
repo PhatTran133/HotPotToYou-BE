@@ -11,8 +11,9 @@ namespace Service.Users
     public interface IUserService
     {
         Task<LoginResponseModel> Login(LoginRequestModel loginRequest);
-        Task<string> CreateUser(UserRequestModel user);
+        Task<string> CreateUser(CreateUserRequestModel user);
         Task<List<UserResponseModel>> GetUsers(string? search, string? gender, string? sortBy, int pageIndex, int pageSize);
+        Task<string> UpdateUser(UpdateUserRequestModel user);
         Task<string> DeleteUser(int id);
     }
 }

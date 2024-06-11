@@ -12,6 +12,7 @@ namespace Repository.Entity
     [Table("Customer")]
     public class CustomerEntity : EntityBase
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int ID { get; set; }
         public string Name { get; set; }

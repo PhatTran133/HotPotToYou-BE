@@ -8,8 +8,9 @@ using System.Net.Mime;
 
 namespace HotPotToYou.Controllers
 {
+    [Route("api/v1")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class RoleController : ControllerBase
     {
         private readonly IRoleService _roleService;
@@ -26,7 +27,7 @@ namespace HotPotToYou.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<Guid>>> CreateDonViCongTac(
+        public async Task<ActionResult<JsonResponse<Guid>>> CreateRole(
             [FromBody] RoleRequestModel role)
         {
             var result = await _roleService.CreateRole(role);
