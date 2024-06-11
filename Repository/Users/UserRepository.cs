@@ -66,7 +66,7 @@ namespace Repository.Users
             if (checkPhone != null)
                 throw new InvalidDataException("Phone is existing");
 
-            var role = await _context.Role.SingleOrDefaultAsync(x => x.Name.Equals("staff"));
+            var role = await _context.Role.SingleOrDefaultAsync(x => x.Name.Equals("staff") && x.DeleteDate == null);
             if (role == null)
                 throw new InvalidDataException("Role staff is not found");
 
@@ -150,7 +150,7 @@ namespace Repository.Users
         }
         public async Task<string> DeleteUser(int id)
         {
-            var user = await _context.User.SingleOrDefaultAsync(x => x.ID == id);
+            var user = await _context.User.SingleOrDefaultAsync(x => x.ID == id && x.DeleteDate == null);
             if (user == null)
                 throw new Exception("User is not found");
 
