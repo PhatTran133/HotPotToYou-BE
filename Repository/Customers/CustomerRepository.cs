@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Repository.DbContexts;
 using Repository.Entity;
 using Repository.Models.RequestModels;
+using Repository.Models.ResponseModels;
 using Service.CurrentUser;
 using Service.Password;
 using System;
@@ -78,7 +79,41 @@ namespace Repository.Customers
             else
                 return "Create Customer Failed";
         }
+        public async Task<CustomerResponseModel> GetCustomerByID(int id)
+        {
+            var customer = await _context.Customer.SingleOrDefaultAsync(x => x.ID == id && x.DeleteDate == null);
+            if (customer == null)
+                throw new Exception("User is not found");
 
+            return _mapper.Map<CustomerResponseModel>(customer);
+        }
+        public async Task<string> UpdateCustomer(UpdateCustomerRequestModel customer)
+        {
+            var customerEntity = await _context.Customer.SingleOrDefaultAsync(x => x.ID == customer.ID && x.DeleteDate == null);
+            if (customerEntity == null)
+                throw new Exception("Customer is not found");
 
+            var checkEmail = await _context.Customer.SingleOrDefaultAsync(x => x.Email == customer.Email && x.ID != customer.ID && x.DeleteDate == null);
+            if (checkEmail != null)
+                throw new InvalidDataException("Email is existed");
+
+            var checkPhone = await _context.Customer.SingleOrDefaultAsync(x => x.Phone == customer.Phone && x.ID != customer.ID && x.DeleteDate == null);
+            if (checkPhone != null)
+                throw new InvalidDataException("Phone is existed");
+
+            customer.Name = customerEntity.Name;
+            customer.Address = customerEntity.Address;
+            customer.Email = customerEntity.Email;
+            customer.Phone = customerEntity.Phone;
+            customer.YearOfBirth = customerEntity.YearOfBirth;
+            customer.Gender = customerEntity.Gender;
+            customer.AvatarUrl = customerEntity.AvatarUrl;
+
+            _context.Customer.Update(customerEntity);
+            if (await _context.SaveChangesAsync() > 0)
+                return "Update Customer Successfully";
+            else
+                return "Update Customer Failed";
+        }
     }
 }
