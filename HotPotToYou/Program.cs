@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Repository.DbContexts;
+using Repository.HotPotType;
 using Repository.Roles;
 using Repository.Users;
 using Service.CurrentUser;
+using Service.HotPotType;
 using Service.Password;
 using Service.Roles;
 using Service.Users;
@@ -90,6 +92,8 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddScoped<IHotPotTypeRepository, HotPotTypeRepository>();
+builder.Services.AddScoped<IHotPotTypeService, HotPotTypeService>();
 
 #endregion
 

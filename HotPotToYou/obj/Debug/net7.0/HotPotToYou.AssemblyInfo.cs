@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HotPotToYou")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+59937caeee922bb1beb7418a36e9804196ea84bd")]
 [assembly: System.Reflection.AssemblyProductAttribute("HotPotToYou")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HotPotToYou")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
