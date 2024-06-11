@@ -26,3 +26,18 @@ D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\obj\Debug\net7.0\refint\Reposi
 D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\obj\Debug\net7.0\Repository.pdb
 D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\obj\Debug\net7.0\Repository.genruntimeconfig.cache
 D:\Project C#\SWD392\Demo1\HotPotToYou\Repository\obj\Debug\net7.0\ref\Repository.dll
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\bin\Debug\net7.0\Repository.deps.json
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\bin\Debug\net7.0\Repository.runtimeconfig.json
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\bin\Debug\net7.0\Repository.dll
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\bin\Debug\net7.0\Repository.pdb
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\obj\Debug\net7.0\Repository.csproj.AssemblyReference.cache
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\obj\Debug\net7.0\Repository.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\obj\Debug\net7.0\Repository.AssemblyInfoInputs.cache
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\obj\Debug\net7.0\Repository.AssemblyInfo.cs
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\obj\Debug\net7.0\Repository.csproj.CoreCompileInputs.cache
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\obj\Debug\net7.0\Repository.sourcelink.json
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\obj\Debug\net7.0\Repository.dll
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\obj\Debug\net7.0\refint\Repository.dll
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\obj\Debug\net7.0\Repository.pdb
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\obj\Debug\net7.0\Repository.genruntimeconfig.cache
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\obj\Debug\net7.0\ref\Repository.dll
