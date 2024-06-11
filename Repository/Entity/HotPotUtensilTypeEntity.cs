@@ -12,7 +12,7 @@ namespace Repository.Entity
 {
     [Table("HotPotUtensilType")]
 
-    public class HotPotUtensilTypeEntity : EntityBase
+    public class HotPotUtensilTypeEntity 
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
