@@ -28,7 +28,7 @@ builder.Services.AddEndpointsApiExplorer();
 #region New Config
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("local")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Server")));
 
 builder.Services.AddSwaggerGen(options =>
 {

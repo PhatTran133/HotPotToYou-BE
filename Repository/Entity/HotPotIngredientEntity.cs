@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Repository.Entity
 {
     [Table("HotPotIngredient")]
-    public class HotPotIngredientEntity : EntityBase
+    public class HotPotIngredientEntity 
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
