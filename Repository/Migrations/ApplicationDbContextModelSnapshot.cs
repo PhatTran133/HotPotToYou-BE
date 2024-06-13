@@ -327,29 +327,11 @@ namespace Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("CreateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeleteByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("HotpotID")
                         .HasColumnType("int");
 
                     b.Property<int>("IngredientId")
                         .HasColumnType("int");
-
-                    b.Property<string>("UpdateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 
@@ -419,26 +401,8 @@ namespace Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("CreateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeleteByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("HotPotTypeID")
                         .HasColumnType("int");
-
-                    b.Property<string>("UpdateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("UtensilID")
                         .HasColumnType("int");
@@ -505,26 +469,11 @@ namespace Repository.Migrations
                     b.Property<int>("ActivityTypeID")
                         .HasColumnType("int");
 
-                    b.Property<string>("CreateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeleteByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeleteDate")
+                    b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("OrderID")
                         .HasColumnType("int");
-
-                    b.Property<string>("UpdateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 
@@ -719,26 +668,8 @@ namespace Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("CreateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeleteByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("PackageID")
                         .HasColumnType("int");
-
-                    b.Property<string>("UpdateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("UtensilID")
                         .HasColumnType("int");

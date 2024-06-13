@@ -3,14 +3,21 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+<<<<<<< HEAD
 using Repository.ActivityTypeRepository;
+=======
+using Repository.Customers;
+>>>>>>> origin/dev
 using Repository.DbContexts;
+using Repository.HotPots;
 using Repository.HotPotType;
 using Repository.PaymentRepository;
 using Repository.Roles;
 using Repository.Users;
 using Service.ActivityType;
 using Service.CurrentUser;
+using Service.Customers;
+using Service.HotPots;
 using Service.HotPotType;
 using Service.Password;
 using Service.Roles;
@@ -95,14 +102,23 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
+
 builder.Services.AddScoped<IHotPotTypeRepository, HotPotTypeRepository>();
 builder.Services.AddScoped<IHotPotTypeService, HotPotTypeService>();
 
+<<<<<<< HEAD
 builder.Services.AddScoped<IActivityTypeRepository, ActivityTypeRepository>();
 builder.Services.AddScoped<IActivityTypeService, ActivityTypeService>();
 
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IActivityTypeService, ActivityTypeService>();
+=======
+builder.Services.AddScoped<IHotPotRepository, HotPotRepository>();
+builder.Services.AddScoped<IHotPotService, HotPotService>();
+
+>>>>>>> origin/dev
 #endregion
 
 var app = builder.Build();

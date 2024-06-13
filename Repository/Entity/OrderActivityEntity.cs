@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Repository.Entity
 {
     [Table("OrderActivity")]
-    public class OrderActivityEntity : EntityBase
+    public class OrderActivityEntity 
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
@@ -21,6 +21,7 @@ namespace Repository.Entity
         public virtual OrderEntity Order { get; set; }
         public int ActivityTypeID { get; set; }
         [ForeignKey(nameof(ActivityTypeID))]
+        public DateTime DateTime { get; set; }
         public virtual ActivityTypeEntity ActivityType { get; set; }
     }
 }

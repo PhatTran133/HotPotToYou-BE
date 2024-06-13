@@ -23,7 +23,7 @@ namespace Service.Users
             return await _userRepository.Login(loginRequest);
         }
 
-        public async Task<string> CreateUser(UserRequestModel user)
+        public async Task<string> CreateUser(CreateUserRequestModel user)
         {
             return await _userRepository.CreateUser(user);
         }
@@ -32,10 +32,15 @@ namespace Service.Users
         {
             return await _userRepository.GetUsers(search, gender, sortBy, pageIndex, pageSize);
         }
-
+        public async Task<string> UpdateUser(UpdateUserRequestModel user)
+        {
+            return await _userRepository.UpdateUser(user);
+        }
         public async Task<string> DeleteUser(int id)
         {
             return await _userRepository.DeleteUser(id);
         }
+
+        
     }
 }

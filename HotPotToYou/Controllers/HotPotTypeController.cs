@@ -8,7 +8,7 @@ using Service.HotPotType;
 
 namespace HotPotToYou.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1")]
     [ApiController]
     public class HotPotTypeController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace HotPotToYou.Controllers
             _hotPotTypeService = hotPotTypeService;
         }
 
-        [HttpPost("addHotPotType")]
+        [HttpPost("hotpot-type")]
         public async Task<IActionResult> AddHotPotType([FromBody] HotPotTypeModel hotPotType)
         {
             try
@@ -33,7 +33,7 @@ namespace HotPotToYou.Controllers
             }
         }
 
-        [HttpPut("UpdateHotPotType")]
+        [HttpPut("hotpot-type")]
         public async Task<IActionResult> UpdateHotPotType([FromBody] HotPotTypeRequest hotPotType)
         {
             try
@@ -48,7 +48,7 @@ namespace HotPotToYou.Controllers
             }
         }
 
-        [HttpPut("DeleteHotPotType")]
+        [HttpDelete("hotpot-type")]
         public async Task<IActionResult> DeleteHotPotType([FromBody] int id)
         {
             try

@@ -10,8 +10,9 @@ using System.Net.Mime;
 
 namespace HotPotToYou.Controllers
 {
+    [Route("api/v1")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -26,57 +27,79 @@ namespace HotPotToYou.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("user/login")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<string>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<JsonResponse<string>>> Login(
                        [FromBody] LoginRequestModel loginRequest)
         {
-            var result = await _userService.Login(loginRequest);
-            var token = _jwtService.CreateToken(result.ID, result.Role);
-            return Ok(new JsonResponse<string>(token));
+            try
+            {
+                var result = await _userService.Login(loginRequest);
+                var token = _jwtService.CreateToken(result.ID, result.Role);
+                return Ok(new JsonResponse<string>(token));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
         }
 
         [AllowAnonymous]
         [HttpPost("user")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<Guid>), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<Guid>>> CreateUser(
-            [FromBody] UserRequestModel user)
+
+        public async Task<ActionResult<JsonResponse<string>>> CreateUser(
+            [FromBody] CreateUserRequestModel user)
         {
-            var result = await _userService.CreateUser(user);
-            return Ok(new JsonResponse<string>(result));
+            try
+            {
+                var result = await _userService.CreateUser(user);
+                return Ok(new JsonResponse<string>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
         }
 
         [HttpGet("user")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<Guid>), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<List<JsonResponse<UserResponseModel>>>> GetUsers(string? search, string? gender, string? sortBy, int pageIndex, int pageSize)
         {
-            var result = await _userService.GetUsers(search, gender, sortBy, pageIndex, pageSize);
-            return Ok(new JsonResponse<List<UserResponseModel>>(result));
+            try
+            {
+                var result = await _userService.GetUsers(search, gender, sortBy, pageIndex, pageSize);
+                return Ok(new JsonResponse<List<UserResponseModel>>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+        }
+
+        [HttpPost("user/update")]
+        public async Task<ActionResult<JsonResponse<string>>> UpdateUser(
+            [FromBody] UpdateUserRequestModel user)
+        {
+            try
+            {
+                var result = await _userService.UpdateUser(user);
+                return Ok(new JsonResponse<string>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
         }
 
         [HttpDelete("user")]
-        [Produces(MediaTypeNames.Application.Json)]
-        [ProducesResponseType(typeof(JsonResponse<Guid>), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<JsonResponse<Guid>>> DeleteUser(int id)
+        public async Task<ActionResult<JsonResponse<string>>> DeleteUser(int id)
         {
-            var result = await _userService.DeleteUser(id);
-            return Ok(new JsonResponse<string>(result));
+            try
+            {
+                var result = await _userService.DeleteUser(id);
+                return Ok(new JsonResponse<string>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
         }
     }
 }

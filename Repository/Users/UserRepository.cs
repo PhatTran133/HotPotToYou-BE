@@ -57,7 +57,7 @@ namespace Repository.Users
 
             throw new Exception("Wrong Email Or Password");
         }
-        public async Task<string> CreateUser(UserRequestModel user)
+        public async Task<string> CreateUser(CreateUserRequestModel user)
         {
             var checkEmail = await _context.User.SingleOrDefaultAsync(x => x.Email == user.Email && x.DeleteDate == null);
             if (checkEmail != null)
@@ -65,6 +65,10 @@ namespace Repository.Users
             var checkPhone = await _context.User.SingleOrDefaultAsync(x => x.Phone == user.Phone && x.DeleteDate == null);
             if (checkPhone != null)
                 throw new InvalidDataException("Phone is existing");
+
+            var role = await _context.Role.SingleOrDefaultAsync(x => x.Name.Equals("staff") && x.DeleteDate == null);
+            if (role == null)
+                throw new InvalidDataException("Role staff is not found");
 
             var newUser = new UserEntity()
             {
@@ -74,7 +78,7 @@ namespace Repository.Users
                 Gender = user.Gender,
                 Phone = user.Phone,
                 Status = "Active",
-                RoleID = 2,
+                RoleID = role.ID,
                 CreateByID = _currentUserService.UserId,
                 CreateDate = DateTime.Now
             };
@@ -86,7 +90,7 @@ namespace Repository.Users
         }
         public async Task<List<UserResponseModel>> GetUsers(string? search,string? gender, string? sortBy, int pageIndex, int pageSize)
         {
-
+            //NHỚ CHECK DELETEDATE
             IQueryable<UserEntity> users = _context.User.Include(x => x.Role).Where(x => x.DeleteDate == null);
 
 
@@ -119,9 +123,34 @@ namespace Repository.Users
 
             return _mapper.Map<List<UserResponseModel>>(paginatedUsers);
         }
+        public async Task<string> UpdateUser(UpdateUserRequestModel user)
+        {
+            var checkUser = await _context.User.SingleOrDefaultAsync(x => x.ID == user.ID && x.DeleteDate == null);
+            if (checkUser != null)
+                throw new InvalidDataException("User is not found");
+
+            var newUser = new UserEntity()
+            {
+                Name = user.Name,
+                Email = user.Email,
+                Gender = user.Gender,
+                Phone = user.Phone,
+                Status = user.Status,
+                RoleID = user.RoleID,
+                UpdateByID = _currentUserService.UserId,
+                UpdateDate = DateTime.Now
+            };
+
+            _context.User.Update(newUser);
+            if (await _context.SaveChangesAsync() > 0)
+                return "Update Successfully";
+            else
+                return "Update Failed";
+
+        }
         public async Task<string> DeleteUser(int id)
         {
-            var user = await _context.User.SingleOrDefaultAsync(x => x.ID == id);
+            var user = await _context.User.SingleOrDefaultAsync(x => x.ID == id && x.DeleteDate == null);
             if (user == null)
                 throw new Exception("User is not found");
 
@@ -130,9 +159,9 @@ namespace Repository.Users
 
             _context.Update(user);
             if (await _context.SaveChangesAsync() > 0)
-                return "Create Successfully";
+                return "Delete Successfully";
             else
-                return "Create Failed";
+                return "Delete Failed";
         }
     }
 }

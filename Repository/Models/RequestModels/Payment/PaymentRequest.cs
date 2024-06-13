@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Models.RequestModels.Payment
 {
-    public class PaymentRequest
+    internal class PaymentRequest
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
     }
 }
