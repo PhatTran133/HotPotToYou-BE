@@ -3,10 +3,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Repository.ActivityTypeRepository;
 using Repository.DbContexts;
 using Repository.HotPotType;
+using Repository.PaymentRepository;
 using Repository.Roles;
 using Repository.Users;
+using Service.ActivityType;
 using Service.CurrentUser;
 using Service.HotPotType;
 using Service.Password;
@@ -95,6 +98,11 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IHotPotTypeRepository, HotPotTypeRepository>();
 builder.Services.AddScoped<IHotPotTypeService, HotPotTypeService>();
 
+builder.Services.AddScoped<IActivityTypeRepository, ActivityTypeRepository>();
+builder.Services.AddScoped<IActivityTypeService, ActivityTypeService>();
+
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IActivityTypeService, ActivityTypeService>();
 #endregion
 
 var app = builder.Build();

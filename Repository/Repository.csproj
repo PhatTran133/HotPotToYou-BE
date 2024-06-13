@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\RequestModels\Payment\**" />
+    <EmbeddedResource Remove="Models\RequestModels\Payment\**" />
+    <None Remove="Models\RequestModels\Payment\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="IdentityModel" Version="7.0.0" />
@@ -25,6 +31,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
   </ItemGroup>
 	<ItemGroup>
+	  <Folder Include="Models\RequestModels\IngredientGroup\" />
+	  <Folder Include="Models\RequestModels\NewFolder\" />
 	  <Folder Include="Models\RequestModels\Validators\" />
 	</ItemGroup>
 </Project>
