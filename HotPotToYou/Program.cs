@@ -8,6 +8,7 @@ using Repository.Customers;
 using Repository.DbContexts;
 using Repository.HotPots;
 using Repository.HotPotType;
+using Repository.IngredientGroupRepository;
 using Repository.PaymentRepository;
 using Repository.Roles;
 using Repository.Users;
@@ -16,6 +17,7 @@ using Service.CurrentUser;
 using Service.Customers;
 using Service.HotPots;
 using Service.HotPotType;
+using Service.IngredientGroup;
 using Service.Password;
 using Service.Payment;
 using Service.Roles;
@@ -116,6 +118,8 @@ builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IHotPotRepository, HotPotRepository>();
 builder.Services.AddScoped<IHotPotService, HotPotService>();
 
+builder.Services.AddScoped<IIngredientGroupRepository, IngredientGroupRepository>();
+builder.Services.AddScoped<IIngredientGroupService, IngredientGroupService>();
 #endregion
 
 var app = builder.Build();

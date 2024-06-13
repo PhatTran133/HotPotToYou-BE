@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\RequestModels\IngredientGroup\**" />
     <Compile Remove="Models\RequestModels\Validators\**" />
-    <EmbeddedResource Remove="Models\RequestModels\IngredientGroup\**" />
     <EmbeddedResource Remove="Models\RequestModels\Validators\**" />
-    <None Remove="Models\RequestModels\IngredientGroup\**" />
     <None Remove="Models\RequestModels\Validators\**" />
   </ItemGroup>
 
