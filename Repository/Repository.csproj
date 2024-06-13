@@ -7,9 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\RequestModels\Payment\**" />
-    <EmbeddedResource Remove="Models\RequestModels\Payment\**" />
-    <None Remove="Models\RequestModels\Payment\**" />
+    <Compile Remove="Models\RequestModels\IngredientGroup\**" />
+    <Compile Remove="Models\RequestModels\Validators\**" />
+    <EmbeddedResource Remove="Models\RequestModels\IngredientGroup\**" />
+    <EmbeddedResource Remove="Models\RequestModels\Validators\**" />
+    <None Remove="Models\RequestModels\IngredientGroup\**" />
+    <None Remove="Models\RequestModels\Validators\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,9 +33,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
   </ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Models\RequestModels\IngredientGroup\" />
-	  <Folder Include="Models\RequestModels\NewFolder\" />
-	  <Folder Include="Models\RequestModels\Validators\" />
-	</ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\RequestModels\NewFolder\" />
+  </ItemGroup>
 </Project>
