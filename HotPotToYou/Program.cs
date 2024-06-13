@@ -9,6 +9,7 @@ using Repository.HotPots;
 using Repository.HotPotType;
 using Repository.Roles;
 using Repository.Users;
+using Repository.Utensils;
 using Service.CurrentUser;
 using Service.Customers;
 using Service.HotPots;
@@ -16,6 +17,7 @@ using Service.HotPotType;
 using Service.Password;
 using Service.Roles;
 using Service.Users;
+using Service.Utensils;
 using System.Reflection;
 using System.Text;
 
@@ -30,7 +32,7 @@ builder.Services.AddEndpointsApiExplorer();
 #region New Config
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("local")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Server")));
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -104,6 +106,9 @@ builder.Services.AddScoped<IHotPotTypeService, HotPotTypeService>();
 
 builder.Services.AddScoped<IHotPotRepository, HotPotRepository>();
 builder.Services.AddScoped<IHotPotService, HotPotService>();
+
+builder.Services.AddScoped<IUtensilRepository, UtensilRepository>();
+builder.Services.AddScoped<IUtensilService, UtensilService >();
 
 #endregion
 

@@ -19,7 +19,7 @@ namespace HotPotToYou.Controllers
         }
 
         [HttpPost("hotpot")]
-        public async Task<ActionResult<JsonResponse<Guid>>> CreateHotPot(
+        public async Task<ActionResult<JsonResponse<string>>> CreateHotPot(
             [FromBody] CreateHotPotRequestModel hotpot)
         {
             try
@@ -34,7 +34,7 @@ namespace HotPotToYou.Controllers
         }
 
         [HttpPost("hotpot/update")]
-        public async Task<ActionResult<JsonResponse<Guid>>> UpdateHotPot(
+        public async Task<ActionResult<JsonResponse<string>>> UpdateHotPot(
             [FromBody] UpdateHotPotRequestModel hotpot)
         {
             try
