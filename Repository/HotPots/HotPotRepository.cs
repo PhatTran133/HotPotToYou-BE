@@ -161,7 +161,7 @@ namespace Repository.HotPots
 
         public async Task<HotPotResponseModel> GetHotPotByID(int id)
         {
-            var hotpot = await _context.HotPot.SingleOrDefaultAsync(x => x.ID == id && x.DeleteDate == null);
+            var hotpot = await _context.HotPot.Include(x => x.HotPotType).SingleOrDefaultAsync(x => x.ID == id && x.DeleteDate == null);
             if (hotpot == null)
                 throw new Exception("Hot Pot is not found");
 
