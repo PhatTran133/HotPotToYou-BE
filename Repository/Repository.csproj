@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\RequestModels\Validators\**" />
+    <EmbeddedResource Remove="Models\RequestModels\Validators\**" />
+    <None Remove="Models\RequestModels\Validators\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="IdentityModel" Version="7.0.0" />
@@ -24,7 +30,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
   </ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Models\RequestModels\Validators\" />
-	</ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\RequestModels\NewFolder\" />
+  </ItemGroup>
 </Project>
