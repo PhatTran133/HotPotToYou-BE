@@ -114,7 +114,7 @@ namespace Repository.HotPotType
         {
             var hotPotType = await _context.HotPotType.SingleOrDefaultAsync(x => x.ID == id && x.DeleteDate == null);
             if (hotPotType == null)
-                throw new Exception("Hot Pot is not found");
+                throw new Exception("Hot Pot Type is not found");
 
             return _mapper.Map<HotPotTypeResponseModel>(hotPotType);
         }
