@@ -73,7 +73,7 @@ namespace HotPotToYou.Controllers
             }
         }
 
-        [HttpPost("user/update")]
+        [HttpPut("user/update")]
         public async Task<ActionResult<JsonResponse<string>>> UpdateUser(
             [FromBody] UpdateUserRequestModel user)
         {

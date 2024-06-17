@@ -102,10 +102,10 @@ namespace Repository.Utensils
 
         public async Task<List<UtensilResponseModel>> GetUtensils(string? name, string? sortBy,
             decimal? fromPrice, decimal? toPrice,
-            string? size, string? type,
+            string? size,
             int pageIndex, int pageSize)
         {
-            IQueryable<UtensilEntity> utensils = _context.Utensil.Where(x => x.DeleteDate == null);
+            IQueryable<UtensilEntity> utensils = _context.Utensil.Where(x => x.Type.ToLower().Trim().Equals("utensil") && x.DeleteDate == null);
 
             //TÌM THEO TÊN
             if (!string.IsNullOrEmpty(name))
@@ -113,11 +113,6 @@ namespace Repository.Utensils
                 utensils = utensils.Where(x => x.Name.Contains(name));
             }
 
-            //TÌM THEO TYPE
-            if (!string.IsNullOrEmpty(type))
-            {
-                utensils = utensils.Where(x => x.Name.Contains(type));
-            }
 
             //FILTER THEO SIZE
             if (!string.IsNullOrEmpty(size))
@@ -175,18 +170,99 @@ namespace Repository.Utensils
                 }
             }
 
-            var paginatedUsers = PaginatedList<UtensilEntity>.Create(utensils, pageIndex, pageSize);
+            var paginatedUtensils = PaginatedList<UtensilEntity>.Create(utensils, pageIndex, pageSize);
 
-            return _mapper.Map<List<UtensilResponseModel>>(paginatedUsers);
+            return _mapper.Map<List<UtensilResponseModel>>(paginatedUtensils);
         }
+        public async Task<List<UtensilResponseModel>> GetPots(string? name, string? sortBy,
+            decimal? fromPrice, decimal? toPrice,
+            string? size,
+            int pageIndex, int pageSize)
+        {
+            IQueryable<UtensilEntity> pots = _context.Utensil.Where(x => x.Type.ToLower().Trim().Equals("pot") && x.DeleteDate == null);
 
+            //TÌM THEO TÊN
+            if (!string.IsNullOrEmpty(name))
+            {
+                pots = pots.Where(x => x.Name.Contains(name));
+            }
+
+
+            //FILTER THEO SIZE
+            if (!string.IsNullOrEmpty(size))
+            {
+                pots = pots.Where(x => x.Size.Equals(size));
+            }
+
+            // FILTER THEO GIÁ
+            if (fromPrice.HasValue)
+            {
+                pots = pots.Where(x => x.Price >= fromPrice.Value);
+            }
+
+            if (toPrice.HasValue)
+            {
+                pots = pots.Where(x => x.Price <= toPrice.Value);
+            }
+
+            //SORT THEO TÊN
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy.Equals("ascName"))
+                {
+                    pots = pots.OrderBy(x => x.Name);
+                }
+                else if (sortBy.Equals("descName"))
+                {
+                    pots = pots.OrderByDescending(x => x.Name);
+                }
+            }
+
+            //SORT THEO QUANTITY
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy.Equals("ascQuantity"))
+                {
+                    pots = pots.OrderBy(x => x.Quantity);
+                }
+                else if (sortBy.Equals("descQuantity"))
+                {
+                    pots = pots.OrderByDescending(x => x.Quantity);
+                }
+            }
+
+            //SORT THEO GIÁ
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy.Equals("ascPrice"))
+                {
+                    pots = pots.OrderBy(x => x.Price);
+                }
+                else if (sortBy.Equals("descPrice"))
+                {
+                    pots = pots.OrderByDescending(x => x.Price);
+                }
+            }
+
+            var paginatedPots = PaginatedList<UtensilEntity>.Create(pots, pageIndex, pageSize);
+
+            return _mapper.Map<List<UtensilResponseModel>>(paginatedPots);
+        }
         public async Task<UtensilResponseModel> GetUtensilByID(int id)
         {
-            var utensil = await _context.Utensil.SingleOrDefaultAsync(x => x.ID == id && x.DeleteDate == null);
+            var utensil = await _context.Utensil.SingleOrDefaultAsync(x => x.Type.ToLower().Trim().Equals("utensil") && x.ID == id && x.DeleteDate == null);
             if (utensil == null)
                 throw new Exception("Utensil is not found");
 
             return _mapper.Map<UtensilResponseModel>(utensil);
+        }
+        public async Task<UtensilResponseModel> GetPotByID(int id)
+        {
+            var pot = await _context.Utensil.SingleOrDefaultAsync(x => x.Type.ToLower().Trim().Equals("pot") && x.ID == id && x.DeleteDate == null);
+            if (pot == null)
+                throw new Exception("Pot is not found");
+
+            return _mapper.Map<UtensilResponseModel>(pot);
         }
     }
 }
