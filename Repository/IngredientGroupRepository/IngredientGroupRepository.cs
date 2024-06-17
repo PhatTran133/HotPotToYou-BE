@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Repository.DbContexts;
 using Repository.Entity.ConfigTable;
 using Repository.Models.RequestModels.IngredientGroup;
+using Repository.Models.ResponseModels;
+using Repository.Service.Paging;
 using Service.CurrentUser;
 using System;
 using System.Collections.Generic;
@@ -72,6 +74,46 @@ namespace Repository.IngredientGroupRepository
                 else
                     return "Delete Failed";
             }
+        }
+
+        public async Task<List<IngredientGroupResponseModel>> GetIngredientGroups(string? search, string? sortBy,
+            int pageIndex, int pageSize)
+        {
+            IQueryable<IngredientGroupEntity> ingredientGroups = _context.IngredientGroup.Where(x => x.DeleteDate == null);
+
+            //TÌM THEO TÊN
+            if (!string.IsNullOrEmpty(search))
+            {
+                ingredientGroups = ingredientGroups.Where(x => x.Name.Contains(search));
+            }
+
+
+            //SORT THEO TÊN
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy.Equals("ascName"))
+                {
+                    ingredientGroups = ingredientGroups.OrderBy(x => x.Name);
+                }
+                else if (sortBy.Equals("descName"))
+                {
+                    ingredientGroups = ingredientGroups.OrderByDescending(x => x.Name);
+                }
+            }
+
+
+            var paginatedIngredientGroups = PaginatedList<IngredientGroupEntity>.Create(ingredientGroups, pageIndex, pageSize);
+
+            return _mapper.Map<List<IngredientGroupResponseModel>>(paginatedIngredientGroups);
+        }
+
+        public async Task<IngredientGroupResponseModel> GetIngredientGroupByID(int id)
+        {
+            var ingredientGroup = await _context.IngredientGroup.SingleOrDefaultAsync(x => x.ID == id && x.DeleteDate == null);
+            if (ingredientGroup == null)
+                throw new Exception("Ingredient Group is not found");
+
+            return _mapper.Map<IngredientGroupResponseModel>(ingredientGroup);
         }
     }
 }

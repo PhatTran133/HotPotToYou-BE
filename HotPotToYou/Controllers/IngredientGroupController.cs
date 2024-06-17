@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using HotPotToYou.Controllers.ResponseType;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Models.RequestModels.IngredientGroup;
+using Repository.Models.ResponseModels;
 using Service.IngredientGroup;
 
 namespace HotPotToYou.Controllers
@@ -57,6 +59,36 @@ namespace HotPotToYou.Controllers
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
+        }
+
+        [HttpGet("ingredient-group")]
+        public async Task<ActionResult<List<JsonResponse<IngredientGroupResponseModel>>>> GetIngredientGroups(string? search, string? sortBy,
+            int pageIndex, int pageSize)
+        {
+            try
+            {
+                var result = await _ingredientGroupService.GetIngredientGroups(search, sortBy, pageIndex, pageSize);
+                return Ok(new JsonResponse<List<IngredientGroupResponseModel>>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+        }
+
+        [HttpGet("ingredient-group/get-ingredient-group-by-id")]
+        public async Task<ActionResult<JsonResponse<IngredientGroupResponseModel>>> GetIngredientGroupByID(int id)
+        {
+            try
+            {
+                var result = await _ingredientGroupService.GetIngredientGroupByID(id);
+                return Ok(new JsonResponse<IngredientGroupResponseModel>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+
         }
     }
 }

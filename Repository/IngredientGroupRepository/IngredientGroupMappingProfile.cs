@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Repository.Entity;
 using Repository.Entity.ConfigTable;
 using Repository.Models.ResponseModels;
 using System;
@@ -8,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository.HotPotType
+namespace Repository.IngredientGroupRepository
 {
-    public class HotPotTypeMappingProfile :Profile
+    public class IngredientGroupMappingProfile : Profile
     {
-        public HotPotTypeMappingProfile()
+        public IngredientGroupMappingProfile()
         {
-            CreateMap<HotPotTypeEntity, HotPotTypeResponseModel>();
+            CreateMap<IngredientGroupEntity, IngredientGroupResponseModel>();
         }
     }
 }

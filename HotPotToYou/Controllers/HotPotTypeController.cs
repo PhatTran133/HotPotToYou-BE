@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Repository.Entity.ConfigTable;
 using Repository.Models.RequestModels;
 using Repository.Models.RequestModels.HotPotType;
+using Repository.Models.ResponseModels;
 using Service.HotPotType;
 
 namespace HotPotToYou.Controllers
@@ -61,6 +62,36 @@ namespace HotPotToYou.Controllers
                 // Log therror or handle exception as needed
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while adding HotPotType.");
             }
+        }
+
+        [HttpGet("hotpot-type")]
+        public async Task<ActionResult<List<JsonResponse<HotPotTypeResponseModel>>>> GetHotPotTypes(string? search, string? sortBy,
+            int pageIndex, int pageSize)
+        {
+            try
+            {
+                var result = await _hotPotTypeService.GetHotPotTypes(search, sortBy, pageIndex, pageSize);
+                return Ok(new JsonResponse<List<HotPotTypeResponseModel>>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+        }
+
+        [HttpGet("hotpot-type/get-hotpot-type-by-id")]
+        public async Task<ActionResult<JsonResponse<HotPotTypeResponseModel>>> GetHotPotTypeByID(int id)
+        {
+            try
+            {
+                var result = await _hotPotTypeService.GetHotPotTypeByID(id);
+                return Ok(new JsonResponse<HotPotTypeResponseModel>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+
         }
     }
 }
