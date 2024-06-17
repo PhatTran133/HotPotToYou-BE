@@ -8,6 +8,7 @@ namespace Repository.Models.ResponseModels
 {
     public class UtensilResponseModel
     {
+        public int ID { get; set; }
         public string Name { get; set; }
         public string Material { get; set; }
         public string Size { get; set; }
