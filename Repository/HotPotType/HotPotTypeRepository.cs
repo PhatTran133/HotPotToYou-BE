@@ -2,9 +2,12 @@
 using IdentityModel;
 using Microsoft.EntityFrameworkCore;
 using Repository.DbContexts;
+using Repository.Entity;
 using Repository.Entity.ConfigTable;
 using Repository.Models.RequestModels;
 using Repository.Models.RequestModels.HotPotType;
+using Repository.Models.ResponseModels;
+using Repository.Service.Paging;
 using Service.CurrentUser;
 using System;
 using System.Collections.Generic;
@@ -74,6 +77,46 @@ namespace Repository.HotPotType
                 return "Update Successfully";
             else
                 return "Update Failed";
+        }
+
+        public async Task<List<HotPotTypeResponseModel>> GetHotPotTypes(string? search, string? sortBy,
+            int pageIndex, int pageSize)
+        {
+            IQueryable<HotPotTypeEntity> hotPotTypes = _context.HotPotType.Where(x => x.DeleteDate == null);
+
+            //TÌM THEO TÊN
+            if (!string.IsNullOrEmpty(search))
+            {
+                hotPotTypes = hotPotTypes.Where(x => x.Name.Contains(search));
+            }
+
+           
+            //SORT THEO TÊN
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy.Equals("ascName"))
+                {
+                    hotPotTypes = hotPotTypes.OrderBy(x => x.Name);
+                }
+                else if (sortBy.Equals("descName"))
+                {
+                    hotPotTypes = hotPotTypes.OrderByDescending(x => x.Name);
+                }
+            }
+
+
+            var paginatedHotPotTypes = PaginatedList<HotPotTypeEntity>.Create(hotPotTypes, pageIndex, pageSize);
+
+            return _mapper.Map<List<HotPotTypeResponseModel>>(paginatedHotPotTypes);
+        }
+
+        public async Task<HotPotTypeResponseModel> GetHotPotTypeByID(int id)
+        {
+            var hotPotType = await _context.HotPotType.SingleOrDefaultAsync(x => x.ID == id && x.DeleteDate == null);
+            if (hotPotType == null)
+                throw new Exception("Hot Pot Type is not found");
+
+            return _mapper.Map<HotPotTypeResponseModel>(hotPotType);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace HotPotToYou.Controllers
             }
         }
 
-        [HttpPost("hotpot/update")]
+        [HttpPut("hotpot/update")]
         public async Task<ActionResult<JsonResponse<string>>> UpdateHotPot(
             [FromBody] UpdateHotPotRequestModel hotpot)
         {

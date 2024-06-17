@@ -51,7 +51,7 @@ namespace HotPotToYou.Controllers
             
         }
 
-        [HttpPost("customer")]
+        [HttpPut("customer")]
         public async Task<ActionResult<JsonResponse<Guid>>> UpdateCustomer(
             [FromBody] UpdateCustomerRequestModel customer)
         {
