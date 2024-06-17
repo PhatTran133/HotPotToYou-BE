@@ -33,7 +33,7 @@ namespace HotPotToYou.Controllers
             }
         }
 
-        [HttpPost("utensil/update")]
+        [HttpPut("utensil/update")]
         public async Task<ActionResult<JsonResponse<Guid>>> UpdateUtensil(
             [FromBody] UpdateUtensilRequestModel utensil)
         {
@@ -51,12 +51,29 @@ namespace HotPotToYou.Controllers
         [HttpGet("utensil")]
         public async Task<ActionResult<List<JsonResponse<UtensilResponseModel>>>> GetUtensils(string? name, string? sortBy,
             decimal? fromPrice, decimal? toPrice,
-            string? size, string? type,
+            string? size,
             int pageIndex, int pageSize)
         {
             try
             {
-                var result = await _utensilService.GetUtensils(name, sortBy, fromPrice, toPrice, size, type, pageIndex, pageSize);
+                var result = await _utensilService.GetUtensils(name, sortBy, fromPrice, toPrice, size, pageIndex, pageSize);
+                return Ok(new JsonResponse<List<UtensilResponseModel>>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+        }
+
+        [HttpGet("pot")]
+        public async Task<ActionResult<List<JsonResponse<UtensilResponseModel>>>> GetPots(string? name, string? sortBy,
+            decimal? fromPrice, decimal? toPrice,
+            string? size,
+            int pageIndex, int pageSize)
+        {
+            try
+            {
+                var result = await _utensilService.GetPots(name, sortBy, fromPrice, toPrice, size, pageIndex, pageSize);
                 return Ok(new JsonResponse<List<UtensilResponseModel>>(result));
             }
             catch (Exception ex)
@@ -85,6 +102,21 @@ namespace HotPotToYou.Controllers
             try
             {
                 var result = await _utensilService.GetUtensilByID(id);
+                return Ok(new JsonResponse<UtensilResponseModel>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+
+        }
+
+        [HttpGet("pot/get-pot-by-id")]
+        public async Task<ActionResult<JsonResponse<UtensilResponseModel>>> GetPotByID(int id)
+        {
+            try
+            {
+                var result = await _utensilService.GetPotByID(id);
                 return Ok(new JsonResponse<UtensilResponseModel>(result));
             }
             catch (Exception ex)
