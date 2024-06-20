@@ -57,6 +57,7 @@ namespace HotPotToYou.Controllers
             try
             {
                 var result = await _activityTypeService.DeleteActivityTypeAsync(id);
+                return Ok(new JsonResponse<string>(result));
             }
             catch (Exception ex)
             {
