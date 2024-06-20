@@ -31,6 +31,25 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "HotPotFlavor",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeleteByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HotPotFlavor", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "HotPotType",
                 columns: table => new
                 {
@@ -134,8 +153,10 @@ namespace Repository.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Material = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Size = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -159,7 +180,9 @@ namespace Repository.Migrations
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    FlavorID = table.Column<int>(type: "int", nullable: false),
                     TypeID = table.Column<int>(type: "int", nullable: false),
+                    HotPotTypeID = table.Column<int>(type: "int", nullable: false),
                     CreateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -171,8 +194,14 @@ namespace Repository.Migrations
                 {
                     table.PrimaryKey("PK_HotPot", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_HotPot_HotPotType_TypeID",
+                        name: "FK_HotPot_HotPotFlavor_TypeID",
                         column: x => x.TypeID,
+                        principalTable: "HotPotFlavor",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HotPot_HotPotType_HotPotTypeID",
+                        column: x => x.HotPotTypeID,
                         principalTable: "HotPotType",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -242,13 +271,7 @@ namespace Repository.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HotPotTypeID = table.Column<int>(type: "int", nullable: false),
-                    UtensilID = table.Column<int>(type: "int", nullable: false),
-                    CreateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeleteByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UtensilID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -274,13 +297,7 @@ namespace Repository.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UtensilID = table.Column<int>(type: "int", nullable: false),
-                    PackageID = table.Column<int>(type: "int", nullable: false),
-                    CreateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeleteByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    PackageID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -306,13 +323,7 @@ namespace Repository.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HotpotID = table.Column<int>(type: "int", nullable: false),
-                    IngredientId = table.Column<int>(type: "int", nullable: false),
-                    CreateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeleteByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    IngredientId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -443,12 +454,7 @@ namespace Repository.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderID = table.Column<int>(type: "int", nullable: false),
                     ActivityTypeID = table.Column<int>(type: "int", nullable: false),
-                    CreateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeleteByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeleteDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -513,6 +519,11 @@ namespace Repository.Migrations
                 table: "Customer",
                 column: "UserID",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HotPot_HotPotTypeID",
+                table: "HotPot",
+                column: "HotPotTypeID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HotPot_TypeID",
@@ -660,6 +671,9 @@ namespace Repository.Migrations
 
             migrationBuilder.DropTable(
                 name: "IngredientGroup");
+
+            migrationBuilder.DropTable(
+                name: "HotPotFlavor");
 
             migrationBuilder.DropTable(
                 name: "HotPotType");

@@ -13,5 +13,6 @@ namespace Repository.Customers
         Task<string> CreateCustomer(CreateCustomerRequestModel customer);
         Task<CustomerResponseModel> GetCustomerByID(int id);
         Task<string> UpdateCustomer(UpdateCustomerRequestModel customer);
+        Task<CustomerResponseModel> GetCustomerByEmail(string email);
     }
 }

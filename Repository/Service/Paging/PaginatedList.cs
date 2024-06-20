@@ -20,10 +20,17 @@ namespace Repository.Service.Paging
 
         public static PaginatedList<T> Create(IQueryable<T> source, int pageIndex, int pageSize)
         {
-            var count = source.Count();
-            var items = source.Skip((pageIndex - 1)* pageSize).Take(pageSize).ToList();
-
-            return new PaginatedList<T>(items, count, pageIndex, pageSize);
+            if (pageIndex == 0 && pageSize == 0)
+            {
+                var allItems = source.ToList();
+                return new PaginatedList<T>(allItems, allItems.Count, pageIndex, pageSize);
+            }
+            else
+            {
+                var count = source.Count();
+                var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+                return new PaginatedList<T>(items, count, pageIndex, pageSize);
+            }
         }
     }
 }

@@ -33,9 +33,13 @@ namespace Repository.HotPots
 
         public async Task<string> CreateHotPot(CreateHotPotRequestModel hotPot)
         {
-            var checkType = await _context.HotPotType.SingleOrDefaultAsync(x => x.ID == hotPot.TypeID && x.DeleteDate == null);
-            if (checkType == null)
+            var checkType = await _context.HotPotType.AnyAsync(x => x.ID == hotPot.TypeID && x.DeleteDate == null);
+            if (!checkType)
                 throw new InvalidDataException("Hot Pot Type is not found");
+
+            var checkFlavor = await _context.HotPotFlavor.AnyAsync(x => x.ID == hotPot.TypeID && x.DeleteDate == null);
+            if (!checkType) 
+                throw new InvalidDataException("Hot Pot Flavor is not found");
 
             var newHotPot = new HotPotEntity()
             {
@@ -44,6 +48,7 @@ namespace Repository.HotPots
                 ImageUrl = hotPot.ImageUrl,
                 Description = hotPot.Description,
                 Price = hotPot.Price,
+                FlavorID = hotPot.FlavorID,
                 TypeID = hotPot.TypeID,
                 CreateByID = _currentUserService.UserId,
                 CreateDate = DateTime.Now,
@@ -62,8 +67,8 @@ namespace Repository.HotPots
             if (hotPotEntity == null)
                 throw new InvalidDataException("Hot Pot is not found");
 
-            var checkType = await _context.HotPotType.SingleOrDefaultAsync(x => x.ID == hotPot.TypeID && x.DeleteDate == null);
-            if (checkType == null)
+            var checkType = await _context.HotPotType.AnyAsync(x => x.ID == hotPot.TypeID && x.DeleteDate == null);
+            if (checkType)
                 throw new InvalidDataException("Hot Pot Type is not found");
 
             hotPotEntity.Name = hotPot.Name;
@@ -71,6 +76,7 @@ namespace Repository.HotPots
             hotPotEntity.ImageUrl = hotPot.ImageUrl;
             hotPotEntity.Description = hotPot.Description;
             hotPotEntity.Price = hotPot.Price;
+            hotPotEntity.FlavorID = hotPot.FlavorID;
             hotPotEntity.TypeID = hotPot.TypeID;
             hotPotEntity.UpdateByID = _currentUserService.UserId;
             hotPotEntity.UpdateDate = DateTime.Now;
@@ -100,7 +106,7 @@ namespace Repository.HotPots
 
         public async Task<List<HotPotResponseModel>> GetHotPots(string? search, string? sortBy, 
             decimal? fromPrice, decimal? toPrice,
-            string? size,
+            int? flavorID, string? size, int? typeID,
             int pageIndex, int pageSize)
         {
             IQueryable<HotPotEntity> hotPots = _context.HotPot.Include(x => x.HotPotType).Where(x => x.DeleteDate == null);
@@ -111,10 +117,22 @@ namespace Repository.HotPots
                 hotPots = hotPots.Where(x => x.Name.Contains(search));
             }
 
+            //TÌM THEO VỊ
+            if (flavorID.HasValue)
+            {
+                hotPots = hotPots.Where(x => x.FlavorID == flavorID);
+            }
+
             //FILTER THEO SIZE
             if (!string.IsNullOrEmpty(size))
             {
                 hotPots = hotPots.Where(x => x.Size.Equals(size));
+            }
+
+            //TÌM THEO TÊN
+            if (typeID.HasValue)
+            {
+                hotPots = hotPots.Where(x => x.TypeID == typeID);
             }
 
             // FILTER THEO GIÁ

@@ -34,11 +34,11 @@ namespace Service.HotPots
         }
 
         public async Task<List<HotPotResponseModel>> GetHotPots(string? search, string? sortBy, 
-            decimal? fromPrice, decimal? toPrice, 
-            string? size, 
+            decimal? fromPrice, decimal? toPrice,
+            int? flavorID, string? size, int? typeID,
             int pageIndex, int pageSize)
         {
-            return await _hotPotRepository.GetHotPots(search, sortBy, fromPrice, toPrice, size, pageIndex, pageSize);
+            return await _hotPotRepository.GetHotPots(search, sortBy, fromPrice, toPrice,flavorID, size, typeID, pageIndex, pageSize);
         }
 
         public async Task<string> UpdateHotPot(UpdateHotPotRequestModel hotPot)

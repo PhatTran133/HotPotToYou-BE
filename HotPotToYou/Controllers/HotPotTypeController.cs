@@ -59,8 +59,7 @@ namespace HotPotToYou.Controllers
             }
             catch (Exception ex)
             {
-                // Log therror or handle exception as needed
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while adding HotPotType.");
+                return BadRequest(new JsonResponse<string>(ex.Message));
             }
         }
 

@@ -28,6 +28,8 @@ using Service.Users;
 using Service.Utensils;
 using System.Reflection;
 using System.Text;
+using Repository.HotPotFlavors;
+using Service.HotPotFlavors;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -111,6 +113,9 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 builder.Services.AddScoped<IHotPotTypeRepository, HotPotTypeRepository>();
 builder.Services.AddScoped<IHotPotTypeService, HotPotTypeService>();
+
+builder.Services.AddScoped<IHotPotFlavorRepository, HotPotFlavorRepository>();
+builder.Services.AddScoped<IHotPotFlavorService, HotPotFlavorService>();
 
 builder.Services.AddScoped<IActivityTypeRepository, ActivityTypeRepository>();
 builder.Services.AddScoped<IActivityTypeService, ActivityTypeService>();

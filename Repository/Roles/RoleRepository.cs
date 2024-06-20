@@ -29,8 +29,8 @@ namespace Repository.Roles
 
         public async Task<string> CreateRole(RoleRequestModel role)
         {
-            var checkDuplication = await _context.Role.SingleOrDefaultAsync(x => x.Name == role.Name && x.DeleteDate == null);
-            if (checkDuplication != null)
+            var checkDuplication = await _context.Role.AnyAsync(x => x.Name == role.Name && x.DeleteDate == null);
+            if (checkDuplication)
                 throw new InvalidOperationException("Role is existing");
 
             var newRole = new RoleEntity()

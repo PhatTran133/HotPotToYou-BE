@@ -17,6 +17,7 @@ namespace Repository.Models.RequestModels
         public string ImageUrl { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
+        public int FlavorID { get; set; }
         public int TypeID { get; set; }
     }
 
@@ -28,6 +29,7 @@ namespace Repository.Models.RequestModels
         public string ImageUrl { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
+        public int FlavorID { get; set; }
         public int TypeID { get; set; }
     }
 }

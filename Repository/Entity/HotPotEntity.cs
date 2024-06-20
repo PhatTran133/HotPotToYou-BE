@@ -23,8 +23,11 @@ namespace Repository.Entity
 
         [Column(TypeName = "decimal(18, 4)")]
         public decimal Price { get; set; }
+        public int FlavorID { get; set; }
+        [ForeignKey(nameof(FlavorID))]
         public int TypeID { get; set; }
         [ForeignKey(nameof(TypeID))]
+        public virtual HotPotFlavorEntity HotPotFlavor { get; set; }
         public virtual HotPotTypeEntity HotPotType { get; set; }
         public virtual HotPotPackageEntity HotPotPackage { get; set; }
         public virtual HotPotIngredientEntity HotPotIngredient { get; set; }
