@@ -1,4 +1,5 @@
 ﻿using Repository.Models.RequestModels;
+using Repository.Models.ResponseModels;
 using Repository.Roles;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,11 @@ namespace Service.Roles
         public async Task<string> CreateRole(RoleRequestModel role)
         {
             return await _roleRepository.CreateRole(role);
+        }
+
+        public async Task<List<RoleResponseModel>> GetRoles()
+        {
+            return await _roleRepository.GetRoles();
         }
     }
 }

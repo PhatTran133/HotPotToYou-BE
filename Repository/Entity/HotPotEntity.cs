@@ -25,9 +25,10 @@ namespace Repository.Entity
         public decimal Price { get; set; }
         public int FlavorID { get; set; }
         [ForeignKey(nameof(FlavorID))]
+        public virtual HotPotFlavorEntity HotPotFlavor { get; set; }
+
         public int TypeID { get; set; }
         [ForeignKey(nameof(TypeID))]
-        public virtual HotPotFlavorEntity HotPotFlavor { get; set; }
         public virtual HotPotTypeEntity HotPotType { get; set; }
         public virtual HotPotPackageEntity HotPotPackage { get; set; }
         public virtual HotPotIngredientEntity HotPotIngredient { get; set; }

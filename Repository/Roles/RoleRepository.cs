@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Repository.DbContexts;
 using Repository.Entity.ConfigTable;
 using Repository.Models.RequestModels;
+using Repository.Models.ResponseModels;
 using Service.CurrentUser;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,15 @@ namespace Repository.Roles
                 return "Create Successfully";
             else
                 return "Create Failed";
+        }
+
+        public async Task<List<RoleResponseModel>> GetRoles()
+        {
+            var role = await _context.Role.ToListAsync();
+            if (role == null)
+                throw new Exception("Role list is empty");
+
+            return _mapper.Map<List<RoleResponseModel>>(role);
         }
     }
 }

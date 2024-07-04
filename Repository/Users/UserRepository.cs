@@ -123,6 +123,14 @@ namespace Repository.Users
 
             return _mapper.Map<List<UserResponseModel>>(paginatedUsers);
         }
+        public async Task<UserResponseModel> GetUserByEmail(string email)
+        {
+            var user = await _context.User.SingleOrDefaultAsync(x => x.Email == email && x.DeleteDate == null);
+            if (user == null)
+                throw new Exception("User is not found");
+
+            return _mapper.Map<UserResponseModel>(user);
+        }
         public async Task<string> UpdateUser(UpdateUserRequestModel user)
         {
             var checkUser = await _context.User.SingleOrDefaultAsync(x => x.ID == user.ID && x.DeleteDate == null);

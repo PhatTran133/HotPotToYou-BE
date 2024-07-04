@@ -182,7 +182,6 @@ namespace Repository.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
                     FlavorID = table.Column<int>(type: "int", nullable: false),
                     TypeID = table.Column<int>(type: "int", nullable: false),
-                    HotPotTypeID = table.Column<int>(type: "int", nullable: false),
                     CreateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateByID = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -194,14 +193,14 @@ namespace Repository.Migrations
                 {
                     table.PrimaryKey("PK_HotPot", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_HotPot_HotPotFlavor_TypeID",
-                        column: x => x.TypeID,
+                        name: "FK_HotPot_HotPotFlavor_FlavorID",
+                        column: x => x.FlavorID,
                         principalTable: "HotPotFlavor",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_HotPot_HotPotType_HotPotTypeID",
-                        column: x => x.HotPotTypeID,
+                        name: "FK_HotPot_HotPotType_TypeID",
+                        column: x => x.TypeID,
                         principalTable: "HotPotType",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
@@ -521,9 +520,9 @@ namespace Repository.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_HotPot_HotPotTypeID",
+                name: "IX_HotPot_FlavorID",
                 table: "HotPot",
-                column: "HotPotTypeID");
+                column: "FlavorID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HotPot_TypeID",

@@ -37,8 +37,8 @@ namespace Repository.HotPots
             if (!checkType)
                 throw new InvalidDataException("Hot Pot Type is not found");
 
-            var checkFlavor = await _context.HotPotFlavor.AnyAsync(x => x.ID == hotPot.TypeID && x.DeleteDate == null);
-            if (!checkType) 
+            var checkFlavor = await _context.HotPotFlavor.AnyAsync(x => x.ID == hotPot.FlavorID && x.DeleteDate == null);
+            if (!checkFlavor)
                 throw new InvalidDataException("Hot Pot Flavor is not found");
 
             var newHotPot = new HotPotEntity()
@@ -55,10 +55,17 @@ namespace Repository.HotPots
             };
 
             _context.HotPot.Add(newHotPot);
-            if (await _context.SaveChangesAsync() > 0)
+            try
+            {
+                // Your code to save changes
+                await _context.SaveChangesAsync();
                 return "Create HotPot Successfully";
-            else
-                return "Create HotPot Failed";
+            }
+            catch (DbUpdateException ex)
+            {
+                // Log or throw ex.InnerException.Message to see the specific error
+                throw new Exception("Error saving changes", ex);
+            }
         }
 
         public async Task<string> UpdateHotPot(UpdateHotPotRequestModel hotPot)
@@ -109,7 +116,7 @@ namespace Repository.HotPots
             int? flavorID, string? size, int? typeID,
             int pageIndex, int pageSize)
         {
-            IQueryable<HotPotEntity> hotPots = _context.HotPot.Include(x => x.HotPotType).Where(x => x.DeleteDate == null);
+            IQueryable<HotPotEntity> hotPots = _context.HotPot.Include(x => x.HotPotType).Include(x => x.HotPotFlavor).Where(x => x.DeleteDate == null);
 
             //TÌM THEO TÊN
             if (!string.IsNullOrEmpty(search))

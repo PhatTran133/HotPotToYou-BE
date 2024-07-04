@@ -326,9 +326,6 @@ namespace Repository.Migrations
                     b.Property<int>("FlavorID")
                         .HasColumnType("int");
 
-                    b.Property<int>("HotPotTypeID")
-                        .HasColumnType("int");
-
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -355,7 +352,7 @@ namespace Repository.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("HotPotTypeID");
+                    b.HasIndex("FlavorID");
 
                     b.HasIndex("TypeID");
 
@@ -831,13 +828,13 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Repository.Entity.HotPotEntity", b =>
                 {
-                    b.HasOne("Repository.Entity.ConfigTable.HotPotTypeEntity", "HotPotType")
+                    b.HasOne("Repository.Entity.ConfigTable.HotPotFlavorEntity", "HotPotFlavor")
                         .WithMany("HotPot")
-                        .HasForeignKey("HotPotTypeID")
+                        .HasForeignKey("FlavorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Repository.Entity.ConfigTable.HotPotFlavorEntity", "HotPotFlavor")
+                    b.HasOne("Repository.Entity.ConfigTable.HotPotTypeEntity", "HotPotType")
                         .WithMany("HotPot")
                         .HasForeignKey("TypeID")
                         .OnDelete(DeleteBehavior.Cascade)

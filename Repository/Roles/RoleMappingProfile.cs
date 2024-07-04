@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using Repository.Entity;
+using Repository.Entity.ConfigTable;
+using Repository.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +14,7 @@ namespace Repository.Roles
     {
         public RoleMappingProfile()
         {
-            
+            CreateMap<RoleEntity, RoleResponseModel>();
         }
     }
 }
