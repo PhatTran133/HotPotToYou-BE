@@ -28,3 +28,19 @@ D:\Project C#\SWD392\HotPotToYou\Service\obj\Release\net7.0\Service.dll
 D:\Project C#\SWD392\HotPotToYou\Service\obj\Release\net7.0\refint\Service.dll
 D:\Project C#\SWD392\HotPotToYou\Service\obj\Release\net7.0\Service.pdb
 D:\Project C#\SWD392\HotPotToYou\Service\obj\Release\net7.0\ref\Service.dll
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\bin\Release\net7.0\Service.deps.json
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\bin\Release\net7.0\Service.dll
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\bin\Release\net7.0\Service.pdb
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\bin\Release\net7.0\Repository.dll
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\bin\Release\net7.0\Repository.pdb
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\obj\Release\net7.0\Service.csproj.AssemblyReference.cache
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\obj\Release\net7.0\Service.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\obj\Release\net7.0\Service.AssemblyInfoInputs.cache
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\obj\Release\net7.0\Service.AssemblyInfo.cs
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\obj\Release\net7.0\Service.csproj.CoreCompileInputs.cache
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\obj\Release\net7.0\Service.sourcelink.json
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\obj\Release\net7.0\Service.csproj.Up2Date
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\obj\Release\net7.0\Service.dll
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\obj\Release\net7.0\refint\Service.dll
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\obj\Release\net7.0\Service.pdb
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Service\obj\Release\net7.0\ref\Service.dll

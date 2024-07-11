@@ -28,6 +28,9 @@ using Service.Users;
 using Service.Utensils;
 using System.Reflection;
 using System.Text;
+using Repository.Order;
+using Service.Order;
+using HotPotToYou.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -127,6 +130,11 @@ builder.Services.AddScoped<IIngredientGroupService, IngredientGroupService>();
 
 builder.Services.AddScoped<IUtensilRepository, UtensilRepository>();
 builder.Services.AddScoped<IUtensilService, UtensilService >();
+
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
+
 
 #endregion
 
