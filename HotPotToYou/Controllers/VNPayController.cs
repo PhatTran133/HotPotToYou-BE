@@ -1,16 +1,21 @@
 ﻿using HotPotToYou.Service.VNPay;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Service.CurrentUser;
+using Service.Order;
 using System;
 using System.Text;
 using System.Web;
 
 namespace HotPotToYou.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class VNPayController : ControllerBase
     {
+        private readonly IOrderService _orderService;
+
         // VNPay configuration
         public static string VnpPayUrl { get; } = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         public static string VnpReturnUrl { get; } = "http://localhost:8088/payment/return"; // Replace with your actual return URL after successful payment
@@ -22,9 +27,10 @@ namespace HotPotToYou.Controllers
 
         private IHttpContextAccessor _httpContextAccessor;
 
-        public VNPayController(IHttpContextAccessor httpContextAccessor)
+        public VNPayController(IHttpContextAccessor httpContextAccessor, IOrderService orderService)
         {
             _httpContextAccessor = httpContextAccessor;
+            _orderService = orderService;
         }
 
         [HttpPost("Payment")]
@@ -74,6 +80,7 @@ namespace HotPotToYou.Controllers
                 {
                     if (vnp_ResponseCode == "00")
                     {
+                        _orderService.UpdateOrderAfterPaying();
                         // Payment successful
                         return Ok(new { Message = "Payment successful", OrderInfo = orderInfo });
                     }
@@ -82,6 +89,7 @@ namespace HotPotToYou.Controllers
                         // Payment failed
                         return BadRequest(new { Message = "Payment failed", ResponseCode = vnp_ResponseCode });
                     }
+ 
                 }
                 else
                 {
