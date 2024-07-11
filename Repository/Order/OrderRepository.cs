@@ -106,6 +106,18 @@ namespace Repository.Order
                 return "Create Order Failed";
         }
 
+        public async Task<string> UpdateOrderAfterPaying()
+        {
+            var userID = Convert.ToInt32(_currentUserService.UserId);
+            var order = await _context.Order.FirstOrDefaultAsync(x => x.CustomerID == userID);
+            var activity = await _context.ActivityType.FirstOrDefaultAsync(x => x.Name.Equals("Đang chờ xác nhận"));
+            order.OrderActivity.ActivityTypeID = activity.ID;
+            if (await _context.SaveChangesAsync() > 0)
+                return "Update Order Successfully";
+            else
+                return "Update Order Failed";
+        }
+
         public async Task<string> UpdateOrder(UpdateOrderRequestModel order)
         {
             var orderEntity = await _context.Order.SingleOrDefaultAsync(x => x.ID == order.ID);

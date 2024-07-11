@@ -57,28 +57,28 @@ namespace HotPotToYou.Controllers
 
         [HttpGet("get-wait-for-pay-orders")]
         public async Task<IActionResult> GetWaitForPayOrders(string? search, string? sortBy,
-            DateTime? fromDate, DateTime? toDate, int pageIndex = 1, int pageSize = 10)
+            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize )
         {
             var orders = await _orderService.GetWaitForPayOrders(search, sortBy, fromDate, toDate, pageIndex, pageSize);
             return Ok(orders);
         }
         [HttpGet("get-pending-orders")]
         public async Task<IActionResult> GetPendingOrders(string? search, string? sortBy,
-            DateTime? fromDate, DateTime? toDate, int pageIndex = 1, int pageSize = 10)
+            DateTime? fromDate, DateTime? toDate, int pageIndex , int pageSize )
         {
             var orders = await _orderService.GetPendingOrders(search, sortBy, fromDate, toDate, pageIndex, pageSize);
             return Ok(orders);
         }
         [HttpGet("get-in-process-orders")]
         public async Task<IActionResult> GetInProcessOrders(string? search, string? sortBy,
-            DateTime? fromDate, DateTime? toDate, int pageIndex = 1, int pageSize = 10)
+            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize )
         {
             var orders = await _orderService.GetInProcessOrders(search, sortBy, fromDate, toDate, pageIndex, pageSize);
             return Ok(orders);
         }
         [HttpGet("get-delivered-orders")]
         public async Task<IActionResult> GetDeliveredOrders(string? search, string? sortBy,
-            DateTime? fromDate, DateTime? toDate, int pageIndex = 1, int pageSize = 10)
+            DateTime? fromDate, DateTime? toDate, int pageIndex , int pageSize )
         {
             var orders = await _orderService.GetDeliveredOrders(search, sortBy, fromDate, toDate, pageIndex, pageSize);
             return Ok(orders);

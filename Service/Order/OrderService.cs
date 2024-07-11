@@ -60,5 +60,10 @@ namespace Service.Order
         {
             return await _orderRepository.GetDeliveredOrders(search, sortBy, fromDate, toDate, pageIndex, pageSize);
         }
+
+        public async Task<string> UpdateOrderAfterPaying()
+        {
+            return await _orderRepository.UpdateOrderAfterPaying();
+        }
     }
 }

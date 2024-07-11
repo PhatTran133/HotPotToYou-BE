@@ -12,6 +12,7 @@ namespace Repository.Order
     public interface IOrderRepository
     {
         Task<string> CreateOrder(CreateOrderRequestModel order);
+        Task<string> UpdateOrderAfterPaying();
         Task<string> UpdateOrder(UpdateOrderRequestModel order);
         Task<string> DeleteOrder(int id);
         Task<List<OrderResponseModel>> GetWaitForPayOrders(string? search, string? sortBy,
