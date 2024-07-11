@@ -30,6 +30,10 @@ namespace Repository.HotPotType
         }
         public async Task<string> AddAsync(HotPotTypeModel model)
         {
+            var checkHotPotType = await _context.HotPotType.AnyAsync(x => x.Name == model.Name && x.DeleteDate == null);
+            if (checkHotPotType) 
+                throw new Exception("HotPotType existed");
+
             var newHotPotType = new HotPotTypeEntity()
             {
                 Name = model.Name,

@@ -12,12 +12,24 @@ namespace Repository.Models.RequestModels.Order
         public int CustomerID { get; set; }
         public string Adress { get; set; }
         public decimal TotalPrice { get; set; }
-        public bool Status { get; set; }
         public int PaymentID { get; set; }
         public string PaymentStatus { get; set; }
+        public List<OrderItem> Items { get; set; }
     }
+
+    public class OrderItem
+    {
+        public string Type { get; set; }
+        public int Id { get; set; }
+        public int Quantity { get; set; }
+        public decimal Total {  get; set; }
+        public bool IsPackage { get; set; }
+    }
+
     public class UpdateOrderRequestModel : CreateOrderRequestModel
     {
         public int ID { get; set; }
+        public bool Status { get; set; }
+
     }
 }

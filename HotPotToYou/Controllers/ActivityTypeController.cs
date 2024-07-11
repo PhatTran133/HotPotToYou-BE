@@ -24,31 +24,45 @@ namespace HotPotToYou.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(ActivityTypeModel model)
         {
-            var result = await _activityTypeService.AddActivityTypeAsync(model);
-            if (result == "Create Successfully")
-                return Ok(result);
-            else
-                return BadRequest(result);
+            try
+            {
+                var result = await _activityTypeService.AddActivityTypeAsync(model);
+                return Ok(new JsonResponse<string>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+            
+            
         }
 
         [HttpPut]
         public async Task<IActionResult> Update(ActivityTypeRequest model)
         {
-            var result = await _activityTypeService.UpdateActivityTypeAsync(model);
-            if (result == "Update Successfully")
-                return Ok(result);
-            else
-                return BadRequest(result);
+            try
+            {
+                var result = await _activityTypeService.UpdateActivityTypeAsync(model);
+                return Ok(new JsonResponse<string>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _activityTypeService.DeleteActivityTypeAsync(id);
-            if (result == "Delete Successfully")
-                return Ok(result);
-            else
-                return BadRequest(result);
+            try
+            {
+                var result = await _activityTypeService.DeleteActivityTypeAsync(id);
+                return Ok(new JsonResponse<string>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
         }
     }
 }

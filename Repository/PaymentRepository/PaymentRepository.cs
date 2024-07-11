@@ -27,6 +27,10 @@ namespace Repository.PaymentRepository
 
         public async Task<string> AddAsync(PaymentModel model)
         {
+            var checkPayMent = await _context.Payment.AnyAsync(x => x.Name == model.Name && x.DeleteDate == null);
+            if (checkPayMent) 
+                throw new Exception("Payment is existed");
+
             var newPayment = new PaymentEntity()
             {
                 Name = model.Name,

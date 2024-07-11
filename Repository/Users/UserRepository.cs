@@ -59,11 +59,11 @@ namespace Repository.Users
         }
         public async Task<string> CreateUser(CreateUserRequestModel user)
         {
-            var checkEmail = await _context.User.SingleOrDefaultAsync(x => x.Email == user.Email && x.DeleteDate == null);
-            if (checkEmail != null)
+            var checkEmail = await _context.User.AnyAsync(x => x.Email == user.Email && x.DeleteDate == null);
+            if (checkEmail)
                 throw new InvalidDataException("Email is existing");
-            var checkPhone = await _context.User.SingleOrDefaultAsync(x => x.Phone == user.Phone && x.DeleteDate == null);
-            if (checkPhone != null)
+            var checkPhone = await _context.User.AnyAsync(x => x.Phone == user.Phone && x.DeleteDate == null);
+            if (checkPhone)
                 throw new InvalidDataException("Phone is existing");
 
             var role = await _context.Role.SingleOrDefaultAsync(x => x.Name.Equals("staff") && x.DeleteDate == null);
@@ -123,11 +123,27 @@ namespace Repository.Users
 
             return _mapper.Map<List<UserResponseModel>>(paginatedUsers);
         }
+        public async Task<UserResponseModel> GetUserByEmail(string email)
+        {
+            var user = await _context.User.SingleOrDefaultAsync(x => x.Email == email && x.DeleteDate == null);
+            if (user == null)
+                throw new Exception("User is not found");
+
+            return _mapper.Map<UserResponseModel>(user);
+        }
         public async Task<string> UpdateUser(UpdateUserRequestModel user)
         {
             var checkUser = await _context.User.SingleOrDefaultAsync(x => x.ID == user.ID && x.DeleteDate == null);
             if (checkUser != null)
                 throw new InvalidDataException("User is not found");
+
+            var checkEmail = await _context.User.AnyAsync(x => x.Email == user.Email && x.ID != user.ID && x.DeleteDate == null);
+            if (checkEmail)
+                throw new InvalidDataException("Email is existing");
+
+            var checkPhone = await _context.User.AnyAsync(x => x.Phone == user.Phone && x.ID != user.ID && x.DeleteDate == null);
+            if (checkPhone)
+                throw new InvalidDataException("Phone is existing");
 
             var newUser = new UserEntity()
             {

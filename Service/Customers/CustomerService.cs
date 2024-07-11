@@ -23,6 +23,11 @@ namespace Service.Customers
             return await _customerRepository.CreateCustomer(customer);
         }
 
+        public async Task<CustomerResponseModel> GetCustomerByEmail(string email)
+        {
+            return await _customerRepository.GetCustomerByEmail(email);
+        }
+
         public async Task<CustomerResponseModel> GetCustomerByID(int id)
         {
             return await _customerRepository.GetCustomerByID(id);

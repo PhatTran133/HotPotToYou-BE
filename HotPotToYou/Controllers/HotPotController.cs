@@ -51,12 +51,12 @@ namespace HotPotToYou.Controllers
         [HttpGet("hotpot")]
         public async Task<ActionResult<List<JsonResponse<HotPotResponseModel>>>> GetHotPots(string? search, string? sortBy,
             decimal? fromPrice, decimal? toPrice,
-            string? size,
+            int? flavorID, string? size, int? typeID,
             int pageIndex, int pageSize)
         {
             try
             {
-                var result = await _hotPotService.GetHotPots(search, sortBy, fromPrice, toPrice, size, pageIndex, pageSize);
+                var result = await _hotPotService.GetHotPots(search, sortBy, fromPrice, toPrice, flavorID, size, typeID, pageIndex, pageSize);
                 return Ok(new JsonResponse<List<HotPotResponseModel>>(result));
             }
             catch (Exception ex)

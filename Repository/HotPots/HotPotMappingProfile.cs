@@ -14,7 +14,9 @@ namespace Repository.HotPots
         public HotPotMappingProfile() 
         {
             CreateMap<HotPotEntity, HotPotResponseModel>()
+                .ForMember(dest => dest.Flavor, opt => opt.MapFrom(src => src.HotPotFlavor.Name))
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.HotPotType.Name));
+
         }
     }
 }

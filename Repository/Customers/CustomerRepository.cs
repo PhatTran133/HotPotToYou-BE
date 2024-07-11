@@ -31,12 +31,12 @@ namespace Repository.Customers
 
         public async Task<string> CreateCustomer(CreateCustomerRequestModel customer)
         {
-            var checkEmail = await _context.Customer.SingleOrDefaultAsync(x => x.Email == customer.Email && x.DeleteDate == null);
-            if (checkEmail != null)
+            var checkEmail = await _context.Customer.AnyAsync(x => x.Email == customer.Email && x.DeleteDate == null);
+            if (checkEmail)
                 throw new InvalidDataException("Email is existed");
 
-            var checkPhone = await _context.Customer.SingleOrDefaultAsync(x => x.Phone == customer.Phone && x.DeleteDate == null);
-            if (checkPhone != null)
+            var checkPhone = await _context.Customer.AnyAsync(x => x.Phone == customer.Phone && x.DeleteDate == null);
+            if (checkPhone)
                 throw new InvalidDataException("Phone is existed");
 
             var role = await _context.Role.SingleOrDefaultAsync(x => x.Name.Equals("customer"));
@@ -87,6 +87,15 @@ namespace Repository.Customers
 
             return _mapper.Map<CustomerResponseModel>(customer);
         }
+        public async Task<CustomerResponseModel> GetCustomerByEmail(string email)
+        {
+            var customer = await _context.Customer.SingleOrDefaultAsync(x => x.Email == email && x.DeleteDate == null);
+            if (customer == null)
+                throw new Exception("Customer is not found");
+
+            return _mapper.Map<CustomerResponseModel>(customer);
+        }
+        
         public async Task<string> UpdateCustomer(UpdateCustomerRequestModel customer)
         {
             var customerEntity = await _context.Customer.SingleOrDefaultAsync(x => x.ID == customer.ID && x.DeleteDate == null);

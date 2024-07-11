@@ -13,6 +13,7 @@ namespace Repository.Users
         Task<LoginResponseModel> Login(LoginRequestModel loginRequest);
         Task<string> CreateUser(CreateUserRequestModel user);
         Task<List<UserResponseModel>> GetUsers(string? search, string? gender, string? sortBy, int pageIndex, int pageSize);
+        Task<UserResponseModel> GetUserByEmail(string email);
         Task<string> UpdateUser(UpdateUserRequestModel user);
         Task<string> DeleteUser(int id);
     }

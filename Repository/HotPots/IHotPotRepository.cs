@@ -17,7 +17,7 @@ namespace Repository.HotPots
         Task<string> DeleteHotPot(int id);
         Task<List<HotPotResponseModel>> GetHotPots(string? search, string? sortBy,
             decimal? fromPrice, decimal? toPrice,
-            string? size,
+            int? flavorID, string? size, int? typeID,
             int pageIndex, int pageSize);
         Task<HotPotResponseModel> GetHotPotByID(int id);
     }

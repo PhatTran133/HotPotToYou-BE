@@ -51,6 +51,21 @@ namespace HotPotToYou.Controllers
             
         }
 
+        [HttpGet("customer/get-customer-by-email")]
+        public async Task<ActionResult<JsonResponse<CustomerResponseModel>>> GetCustomerByEmail(string email)
+        {
+            try
+            {
+                var result = await _customerService.GetCustomerByEmail(email);
+                return Ok(new JsonResponse<CustomerResponseModel>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+
+        }
+
         [HttpPut("customer")]
         public async Task<ActionResult<JsonResponse<Guid>>> UpdateCustomer(
             [FromBody] UpdateCustomerRequestModel customer)

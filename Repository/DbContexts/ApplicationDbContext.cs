@@ -24,9 +24,9 @@ namespace Repository.DbContexts
         public DbSet<IngredientGroupEntity> IngredientGroup { get; set; }
         public DbSet<PaymentEntity> Payment { get; set; }
         public DbSet<RoleEntity> Role { get; set; }
-
         public DbSet<CustomerEntity> Customer { get; set; }
         public DbSet<HotPotEntity> HotPot { get; set; }
+        public DbSet<HotPotFlavorEntity> HotPotFlavor { get; set; }
         public DbSet<HotPotIngredientEntity> HotPotIngredient { get; set; }
         public DbSet<HotPotPackageEntity> HotPotPackage { get; set; }
         public DbSet<HotPotUtensilTypeEntity> HotPotUtensilType { get; set; }

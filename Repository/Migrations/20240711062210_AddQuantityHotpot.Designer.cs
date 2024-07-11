@@ -12,8 +12,8 @@ using Repository.DbContexts;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240611125150_v3")]
-    partial class v3
+    [Migration("20240711062210_AddQuantityHotpot")]
+    partial class AddQuantityHotpot
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,6 +58,41 @@ namespace Repository.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("ActivityType");
+                });
+
+            modelBuilder.Entity("Repository.Entity.ConfigTable.HotPotFlavorEntity", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("CreateByID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeleteByID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdateByID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("HotPotFlavor");
                 });
 
             modelBuilder.Entity("Repository.Entity.ConfigTable.HotPotTypeEntity", b =>
@@ -291,6 +326,9 @@ namespace Repository.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("FlavorID")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -301,6 +339,9 @@ namespace Repository.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18, 4)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.Property<string>("Size")
                         .IsRequired()
@@ -316,6 +357,8 @@ namespace Repository.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("FlavorID");
 
                     b.HasIndex("TypeID");
 
@@ -722,6 +765,14 @@ namespace Repository.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<string>("Size")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UpdateByID")
                         .HasColumnType("nvarchar(max)");
 
@@ -783,11 +834,19 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Repository.Entity.HotPotEntity", b =>
                 {
+                    b.HasOne("Repository.Entity.ConfigTable.HotPotFlavorEntity", "HotPotFlavor")
+                        .WithMany("HotPot")
+                        .HasForeignKey("FlavorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Repository.Entity.ConfigTable.HotPotTypeEntity", "HotPotType")
                         .WithMany("HotPot")
                         .HasForeignKey("TypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("HotPotFlavor");
 
                     b.Navigation("HotPotType");
                 });
@@ -959,6 +1018,11 @@ namespace Repository.Migrations
                 {
                     b.Navigation("OrderActivity")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Repository.Entity.ConfigTable.HotPotFlavorEntity", b =>
+                {
+                    b.Navigation("HotPot");
                 });
 
             modelBuilder.Entity("Repository.Entity.ConfigTable.HotPotTypeEntity", b =>

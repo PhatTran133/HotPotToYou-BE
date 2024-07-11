@@ -27,6 +27,10 @@ namespace Repository.ActivityTypeRepository
 
         public async Task<string> AddAsync(ActivityTypeModel model)
         {
+            var checkActivityType = await _context.ActivityType.AnyAsync(x => x.Name == model.Name && x.DeleteDate == null);
+            if (checkActivityType) 
+                throw new Exception("ActivityType already existed");
+
             var newActivityType = new ActivityTypeEntity()
             {
                 Name = model.Name,

@@ -19,10 +19,15 @@ namespace Repository.Entity
         public string Name { get; set; }
         public string Size { get; set; }
         public string ImageUrl { get; set; }
+        public int Quantity { get; set; }
         public string Description { get; set; }
 
         [Column(TypeName = "decimal(18, 4)")]
         public decimal Price { get; set; }
+        public int FlavorID { get; set; }
+        [ForeignKey(nameof(FlavorID))]
+        public virtual HotPotFlavorEntity HotPotFlavor { get; set; }
+
         public int TypeID { get; set; }
         [ForeignKey(nameof(TypeID))]
         public virtual HotPotTypeEntity HotPotType { get; set; }

@@ -35,6 +35,9 @@ namespace Repository.Utensils
         //tạo NỒI và DỤNG CỤ
         public async Task<string> CreateUtensil (CreateUtensilRequestModel utensil)
         {
+            var checkUtensil = await _context.Utensil.AnyAsync(x => x.Name == utensil.Name && x.DeleteDate == null);
+            if (checkUtensil) 
+                throw new Exception("Utensil is already exist");
 
             var newUtensil = new UtensilEntity()
             {
@@ -62,6 +65,10 @@ namespace Repository.Utensils
                 var checkUtensil = await _context.Utensil.SingleOrDefaultAsync(x => x.ID == utensil.ID && x.DeleteDate == null);
                 if (checkUtensil == null)
                     throw new Exception("Utensil is not found");
+
+                var checkUtensilName = await _context.Utensil.AnyAsync(x => x.Name == utensil.Name && x.ID != utensil.ID && x.DeleteDate == null);
+                if (checkUtensilName)
+                    throw new Exception("Utensil is already exist");
 
                 checkUtensil.Name = utensil.Name;
                 checkUtensil.Material = utensil.Material;

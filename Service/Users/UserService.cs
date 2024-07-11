@@ -41,6 +41,9 @@ namespace Service.Users
             return await _userRepository.DeleteUser(id);
         }
 
-        
+        public async Task<UserResponseModel> GetUserByEmail(string email)
+        {
+            return await _userRepository.GetUserByEmail(email);
+        }
     }
 }

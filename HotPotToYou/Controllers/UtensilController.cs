@@ -48,6 +48,20 @@ namespace HotPotToYou.Controllers
             }
         }
 
+        [HttpDelete("utensil")]
+        public async Task<ActionResult<JsonResponse<string>>> DeleteUtensil(int id)
+        {
+            try
+            {
+                var result = await _utensilService.DeleteUtensil(id);
+                return Ok(new JsonResponse<string>(result));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+        }
+
         [HttpGet("utensil")]
         public async Task<ActionResult<List<JsonResponse<UtensilResponseModel>>>> GetUtensils(string? name, string? sortBy,
             decimal? fromPrice, decimal? toPrice,
@@ -75,20 +89,6 @@ namespace HotPotToYou.Controllers
             {
                 var result = await _utensilService.GetPots(name, sortBy, fromPrice, toPrice, size, pageIndex, pageSize);
                 return Ok(new JsonResponse<List<UtensilResponseModel>>(result));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new JsonResponse<string>(ex.Message));
-            }
-        }
-
-        [HttpDelete("utensil")]
-        public async Task<ActionResult<JsonResponse<string>>> DeleteUtensil(int id)
-        {
-            try
-            {
-                var result = await _utensilService.DeleteUtensil(id);
-                return Ok(new JsonResponse<string>(result));
             }
             catch (Exception ex)
             {

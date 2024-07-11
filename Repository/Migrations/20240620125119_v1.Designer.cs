@@ -12,7 +12,7 @@ using Repository.DbContexts;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240611120259_v1")]
+    [Migration("20240620125119_v1")]
     partial class v1
     {
         /// <inheritdoc />
@@ -58,6 +58,41 @@ namespace Repository.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("ActivityType");
+                });
+
+            modelBuilder.Entity("Repository.Entity.ConfigTable.HotPotFlavorEntity", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("CreateByID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeleteByID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeleteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdateByID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("HotPotFlavor");
                 });
 
             modelBuilder.Entity("Repository.Entity.ConfigTable.HotPotTypeEntity", b =>
@@ -291,6 +326,9 @@ namespace Repository.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("FlavorID")
+                        .HasColumnType("int");
+
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -317,6 +355,8 @@ namespace Repository.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("FlavorID");
+
                     b.HasIndex("TypeID");
 
                     b.ToTable("HotPot");
@@ -330,29 +370,11 @@ namespace Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("CreateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeleteByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("HotpotID")
                         .HasColumnType("int");
 
                     b.Property<int>("IngredientId")
                         .HasColumnType("int");
-
-                    b.Property<string>("UpdateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 
@@ -422,26 +444,8 @@ namespace Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("CreateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeleteByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("HotPotTypeID")
                         .HasColumnType("int");
-
-                    b.Property<string>("UpdateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("UtensilID")
                         .HasColumnType("int");
@@ -508,26 +512,11 @@ namespace Repository.Migrations
                     b.Property<int>("ActivityTypeID")
                         .HasColumnType("int");
 
-                    b.Property<string>("CreateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeleteByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeleteDate")
+                    b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("OrderID")
                         .HasColumnType("int");
-
-                    b.Property<string>("UpdateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 
@@ -722,26 +711,8 @@ namespace Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("CreateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeleteByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeleteDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("PackageID")
                         .HasColumnType("int");
-
-                    b.Property<string>("UpdateByID")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("UtensilID")
                         .HasColumnType("int");
@@ -790,6 +761,14 @@ namespace Repository.Migrations
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
+
+                    b.Property<string>("Size")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdateByID")
                         .HasColumnType("nvarchar(max)");
@@ -852,11 +831,19 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Repository.Entity.HotPotEntity", b =>
                 {
+                    b.HasOne("Repository.Entity.ConfigTable.HotPotFlavorEntity", "HotPotFlavor")
+                        .WithMany("HotPot")
+                        .HasForeignKey("FlavorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Repository.Entity.ConfigTable.HotPotTypeEntity", "HotPotType")
                         .WithMany("HotPot")
                         .HasForeignKey("TypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("HotPotFlavor");
 
                     b.Navigation("HotPotType");
                 });
@@ -1028,6 +1015,11 @@ namespace Repository.Migrations
                 {
                     b.Navigation("OrderActivity")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Repository.Entity.ConfigTable.HotPotFlavorEntity", b =>
+                {
+                    b.Navigation("HotPot");
                 });
 
             modelBuilder.Entity("Repository.Entity.ConfigTable.HotPotTypeEntity", b =>
