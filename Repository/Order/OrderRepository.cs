@@ -26,23 +26,80 @@ namespace Repository.Order
             _currentUserService = currentUserService;
         }
 
-        public async Task<string> CreateOrder(CreateOrderRequestModel order)
+        public async Task<string> CreateOrder(CreateOrderRequestModel orderRequest)
         {
-            var newOrder = new OrderEntity()
+            if (orderRequest == null || orderRequest.Items == null || !orderRequest.Items.Any())
             {
-                PurchaseDate = order.PurchaseDate,
-                CustomerID = order.CustomerID,
-                Adress = order.Adress,
-                TotalPrice = order.TotalPrice,
-                Status = order.Status,
-                PaymentID = order.PaymentID,
-                PaymentStatus = order.PaymentStatus,
+                throw new ArgumentException("Invalid order data.");
+            }
+
+            var order = new OrderEntity()
+            {
+                PurchaseDate = orderRequest.PurchaseDate,
+                CustomerID = orderRequest.CustomerID,
+                Adress = orderRequest.Adress,
+                TotalPrice = orderRequest.TotalPrice,
+                Status = true,
+                PaymentID = orderRequest.PaymentID,
+                PaymentStatus = orderRequest.PaymentStatus,
                 CreateByID = _currentUserService.UserId,
                 CreateDate = DateTime.Now
-                // Add additional properties if needed
             };
 
-            _context.Order.Add(newOrder);
+            _context.Order.Add(order);
+            await _context.SaveChangesAsync();
+
+            foreach (var item in orderRequest.Items)
+            {
+                if (item.Type == "hotpot")
+                {
+                    var hotpotDetail = new HotPotPackageEntity() 
+                    {
+                        OrderId = order.ID,
+                        HotPotID = item.Id,
+                        Quantity = item.Quantity,
+                        Total = item.Total
+                    };
+                    _context.HotPotPackage.Add(hotpotDetail);
+                }
+                else if (item.Type == "utensil")
+                {
+                    if (item.IsPackage)
+                    {
+                        var utensilDetail = new OrderUtensilEntity()
+                        {
+                            OrderID = order.ID,
+                            UtensilID = 0,
+                            UtensilPackageID = item.Id,
+                            Quantity = item.Quantity,
+                            Total = item.Total
+                        };
+                        _context.OrderUtensil.Add(utensilDetail);
+                    }
+                    else
+                    {
+                        var utensilDetail = new OrderUtensilEntity
+                        {
+                            OrderID = order.ID,
+                            UtensilID = item.Id,
+                            UtensilPackageID = 0,
+                            Quantity = item.Quantity,
+                            Total = item.Total
+                        };
+                        _context.OrderUtensil.Add(utensilDetail);
+                    }
+                }
+            }
+
+            var orderActivityID = await _context.ActivityType.FirstOrDefaultAsync(x => x.Name.Equals("Đang chờ thanh toán"));
+
+            var orderActivity = new OrderActivityEntity
+            {
+                OrderID = order.ID,
+                ActivityTypeID = orderActivityID.ID,
+                DateTime = DateTime.Now,
+            };
+
             if (await _context.SaveChangesAsync() > 0)
                 return "Create Order Successfully";
             else
@@ -84,10 +141,10 @@ namespace Repository.Order
                 return "Delete Order Failed";
         }
 
-        public async Task<List<OrderResponseModel>> GetOrders(string? search, string? sortBy,
+        public async Task<List<OrderResponseModel>> GetWaitForPayOrders(string? search, string? sortBy,
             DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
         {
-            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Where(x => x.Status == true);
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đang chờ thanh toán"));
 
             // Search by address
             if (!string.IsNullOrEmpty(search))
@@ -122,7 +179,120 @@ namespace Repository.Order
 
             return _mapper.Map<List<OrderResponseModel>>(paginatedOrders);
         }
+        public async Task<List<OrderResponseModel>> GetPendingOrders(string? search, string? sortBy,
+           DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đang chờ xác nhận"));
 
+            // Search by address
+            if (!string.IsNullOrEmpty(search))
+            {
+                orders = orders.Where(x => x.Adress.Contains(search));
+            }
+
+            // Filter by date range
+            if (fromDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate >= fromDate.Value);
+            }
+            if (toDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate <= toDate.Value);
+            }
+
+            // Sort by specified field
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy.Equals("ascDate"))
+                {
+                    orders = orders.OrderBy(x => x.PurchaseDate);
+                }
+                else if (sortBy.Equals("descDate"))
+                {
+                    orders = orders.OrderByDescending(x => x.PurchaseDate);
+                }
+            }
+
+            var paginatedOrders = PaginatedList<OrderEntity>.Create(orders, pageIndex, pageSize);
+
+            return _mapper.Map<List<OrderResponseModel>>(paginatedOrders);
+        }
+        public async Task<List<OrderResponseModel>> GetInProcessOrders(string? search, string? sortBy,
+           DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đang vận chuyển"));
+
+            // Search by address
+            if (!string.IsNullOrEmpty(search))
+            {
+                orders = orders.Where(x => x.Adress.Contains(search));
+            }
+
+            // Filter by date range
+            if (fromDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate >= fromDate.Value);
+            }
+            if (toDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate <= toDate.Value);
+            }
+
+            // Sort by specified field
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy.Equals("ascDate"))
+                {
+                    orders = orders.OrderBy(x => x.PurchaseDate);
+                }
+                else if (sortBy.Equals("descDate"))
+                {
+                    orders = orders.OrderByDescending(x => x.PurchaseDate);
+                }
+            }
+
+            var paginatedOrders = PaginatedList<OrderEntity>.Create(orders, pageIndex, pageSize);
+
+            return _mapper.Map<List<OrderResponseModel>>(paginatedOrders);
+        }
+        public async Task<List<OrderResponseModel>> GetDeliveredOrders(string? search, string? sortBy,
+           DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đã giao hàng"));
+
+            // Search by address
+            if (!string.IsNullOrEmpty(search))
+            {
+                orders = orders.Where(x => x.Adress.Contains(search));
+            }
+
+            // Filter by date range
+            if (fromDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate >= fromDate.Value);
+            }
+            if (toDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate <= toDate.Value);
+            }
+
+            // Sort by specified field
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy.Equals("ascDate"))
+                {
+                    orders = orders.OrderBy(x => x.PurchaseDate);
+                }
+                else if (sortBy.Equals("descDate"))
+                {
+                    orders = orders.OrderByDescending(x => x.PurchaseDate);
+                }
+            }
+
+            var paginatedOrders = PaginatedList<OrderEntity>.Create(orders, pageIndex, pageSize);
+
+            return _mapper.Map<List<OrderResponseModel>>(paginatedOrders);
+        }
         public async Task<OrderResponseModel> GetOrderByID(int id)
         {
             var order = await _context.Order.Include(x => x.Customer).SingleOrDefaultAsync(x => x.ID == id);

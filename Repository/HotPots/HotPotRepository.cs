@@ -47,6 +47,7 @@ namespace Repository.HotPots
                 Size = hotPot.Size,
                 ImageUrl = hotPot.ImageUrl,
                 Description = hotPot.Description,
+                Quantity = hotPot.Quantity,
                 Price = hotPot.Price,
                 FlavorID = hotPot.FlavorID,
                 TypeID = hotPot.TypeID,
@@ -57,13 +58,11 @@ namespace Repository.HotPots
             _context.HotPot.Add(newHotPot);
             try
             {
-                // Your code to save changes
                 await _context.SaveChangesAsync();
                 return "Create HotPot Successfully";
             }
             catch (DbUpdateException ex)
             {
-                // Log or throw ex.InnerException.Message to see the specific error
                 throw new Exception("Error saving changes", ex);
             }
         }
@@ -82,6 +81,7 @@ namespace Repository.HotPots
             hotPotEntity.Size = hotPot.Size;
             hotPotEntity.ImageUrl = hotPot.ImageUrl;
             hotPotEntity.Description = hotPot.Description;
+            hotPotEntity.Quantity = hotPot.Quantity;
             hotPotEntity.Price = hotPot.Price;
             hotPotEntity.FlavorID = hotPot.FlavorID;
             hotPotEntity.TypeID = hotPot.TypeID;

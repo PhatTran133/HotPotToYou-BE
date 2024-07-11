@@ -22,33 +22,43 @@ namespace Service.Order
 
         public async Task<string> CreateOrder(CreateOrderRequestModel order)
         {
-            // Bạn có thể thêm các logic nghiệp vụ tại đây trước khi gọi repository
             return await _orderRepository.CreateOrder(order);
         }
 
         public async Task<string> UpdateOrder(UpdateOrderRequestModel order)
         {
-            // Bạn có thể thêm các logic nghiệp vụ tại đây trước khi gọi repository
             return await _orderRepository.UpdateOrder(order);
         }
 
         public async Task<string> DeleteOrder(int id)
         {
-            // Bạn có thể thêm các logic nghiệp vụ tại đây trước khi gọi repository
             return await _orderRepository.DeleteOrder(id);
         }
 
-        public async Task<List<OrderResponseModel>> GetOrders(string? search, string? sortBy,
-            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
-        {
-            // Bạn có thể thêm các logic nghiệp vụ tại đây trước khi gọi repository
-            return await _orderRepository.GetOrders(search, sortBy, fromDate, toDate, pageIndex, pageSize);
-        }
 
         public async Task<OrderResponseModel> GetOrderByID(int id)
         {
-            // Bạn có thể thêm các logic nghiệp vụ tại đây trước khi gọi repository
             return await _orderRepository.GetOrderByID(id);
+        }
+
+        public async Task<List<OrderResponseModel>> GetWaitForPayOrders(string? search, string? sortBy, DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            return await _orderRepository.GetWaitForPayOrders(search, sortBy, fromDate, toDate, pageIndex, pageSize);
+        }
+
+        public async Task<List<OrderResponseModel>> GetPendingOrders(string? search, string? sortBy, DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            return await _orderRepository.GetPendingOrders(search, sortBy, fromDate, toDate, pageIndex, pageSize);
+        }
+
+        public async Task<List<OrderResponseModel>> GetInProcessOrders(string? search, string? sortBy, DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            return await _orderRepository.GetInProcessOrders(search, sortBy, fromDate, toDate, pageIndex, pageSize);
+        }
+
+        public async Task<List<OrderResponseModel>> GetDeliveredOrders(string? search, string? sortBy, DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            return await _orderRepository.GetDeliveredOrders(search, sortBy, fromDate, toDate, pageIndex, pageSize);
         }
     }
 }
