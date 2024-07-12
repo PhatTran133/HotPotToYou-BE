@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v7.0": {
       "HotPotToYou/1.0.0": {
         "dependencies": {
+          "AWSSDK.S3": "3.7.310.5",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "7.0.20",
           "Microsoft.AspNetCore.OpenApi": "7.0.10",
           "Microsoft.EntityFrameworkCore": "7.0.20",
@@ -31,6 +32,25 @@
           "lib/net6.0/AutoMapper.dll": {
             "assemblyVersion": "13.0.0.0",
             "fileVersion": "13.0.1.0"
+          }
+        }
+      },
+      "AWSSDK.Core/3.7.304.28": {
+        "runtime": {
+          "lib/netcoreapp3.1/AWSSDK.Core.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.304.28"
+          }
+        }
+      },
+      "AWSSDK.S3/3.7.310.5": {
+        "dependencies": {
+          "AWSSDK.Core": "3.7.304.28"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/AWSSDK.S3.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.310.5"
           }
         }
       },
@@ -753,6 +773,20 @@
       "sha512": "sha512-/Fx1SbJ16qS7dU4i604Sle+U9VLX+WSNVJggk6MupKVkYvvBm4XqYaeFuf67diHefHKHs50uQIS2YEDFhPCakQ==",
       "path": "automapper/13.0.1",
       "hashPath": "automapper.13.0.1.nupkg.sha512"
+    },
+    "AWSSDK.Core/3.7.304.28": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gcRx4pE9X2V6vWYfKIgf4xsiZqdFrTuWkQ79wXbDLGIUIeL1cfUGV3/hWkTIg+jPohZsFNsyM+bHzNEK6tWblA==",
+      "path": "awssdk.core/3.7.304.28",
+      "hashPath": "awssdk.core.3.7.304.28.nupkg.sha512"
+    },
+    "AWSSDK.S3/3.7.310.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Dl5A+xFA0DwtWw/KhwcsJCQz1jFihdrmFEI603FeukZtltWW0a6/q49MGFObclKgvXirRd5bw6mLkHB99MLkMw==",
+      "path": "awssdk.s3/3.7.310.5",
+      "hashPath": "awssdk.s3.3.7.310.5.nupkg.sha512"
     },
     "Azure.Core/1.35.0": {
       "type": "package",

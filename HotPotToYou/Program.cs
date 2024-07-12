@@ -90,13 +90,13 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-        builder =>
-        {
-            builder.WithOrigins("*")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
-        });
+    options.AddPolicy("AllowAllOrigins",
+    builder =>
+    {
+        builder.WithOrigins("*")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
 });
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
@@ -157,6 +157,7 @@ else
     });
 }
 app.UseHttpsRedirection();
+app.UseCors("AllowAllOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 
