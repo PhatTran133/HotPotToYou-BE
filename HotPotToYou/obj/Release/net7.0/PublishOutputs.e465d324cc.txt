@@ -5,6 +5,8 @@ D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Release\net7.0\PubTmp\Out\HotPo
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Release\net7.0\PubTmp\Out\HotPotToYou.runtimeconfig.json
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Release\net7.0\PubTmp\Out\HotPotToYou.pdb
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Release\net7.0\PubTmp\Out\AutoMapper.dll
+D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Release\net7.0\PubTmp\Out\AWSSDK.Core.dll
+D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Release\net7.0\PubTmp\Out\AWSSDK.S3.dll
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Release\net7.0\PubTmp\Out\Azure.Core.dll
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Release\net7.0\PubTmp\Out\Azure.Identity.dll
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Release\net7.0\PubTmp\Out\BCrypt.Net-Next.dll

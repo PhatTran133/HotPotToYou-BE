@@ -8,6 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Repository
-build_property.ProjectDir = C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\Repository\
-build_property.EnableComHosting = 
-build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.ProjectDir = D:\Project C#\SWD392\HotPotToYou\Repository\

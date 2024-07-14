@@ -72,7 +72,7 @@ namespace HotPotToYou.Controllers
                 return BadRequest(new JsonResponse<string>(ex.Message));
             }
         }
-
+        [AllowAnonymous]
         [HttpGet("user/get-user-by-email")]
         public async Task<ActionResult<JsonResponse<UserResponseModel>>> GetUserByEmail(string email)
         {
