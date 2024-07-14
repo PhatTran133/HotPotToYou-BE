@@ -31,6 +31,8 @@ using System.Text;
 using Repository.Order;
 using Service.Order;
 using HotPotToYou.Controllers;
+using Service.HotPotFlavors;
+using Repository.HotPotFlavors;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -90,13 +92,13 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
-        builder =>
-        {
-            builder.WithOrigins("*")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
-        });
+    options.AddPolicy("AllowAllOrigins",
+    builder =>
+    {
+        builder.WithOrigins("*")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
 });
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
@@ -114,6 +116,9 @@ builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 builder.Services.AddScoped<IHotPotTypeRepository, HotPotTypeRepository>();
 builder.Services.AddScoped<IHotPotTypeService, HotPotTypeService>();
+
+builder.Services.AddScoped<IHotPotFlavorService, HotPotFlavorService>();
+builder.Services.AddScoped<IHotPotFlavorRepository, HotPotFlavorRepository>();
 
 builder.Services.AddScoped<IActivityTypeRepository, ActivityTypeRepository>();
 builder.Services.AddScoped<IActivityTypeService, ActivityTypeService>();
@@ -157,6 +162,7 @@ else
     });
 }
 app.UseHttpsRedirection();
+app.UseCors("AllowAllOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 

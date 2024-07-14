@@ -263,3 +263,5 @@ C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\HotPotToYou\obj\Release\
 C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\HotPotToYou\obj\Release\net7.0\HotPotToYou.pdb
 C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\HotPotToYou\obj\Release\net7.0\HotPotToYou.genruntimeconfig.cache
 C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\HotPotToYou\obj\Release\net7.0\ref\HotPotToYou.dll
+D:\Project C#\SWD392\HotPotToYou\HotPotToYou\bin\Release\net7.0\AWSSDK.Core.dll
+D:\Project C#\SWD392\HotPotToYou\HotPotToYou\bin\Release\net7.0\AWSSDK.S3.dll

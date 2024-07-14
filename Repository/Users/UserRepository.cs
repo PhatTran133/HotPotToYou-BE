@@ -125,7 +125,7 @@ namespace Repository.Users
         }
         public async Task<UserResponseModel> GetUserByEmail(string email)
         {
-            var user = await _context.User.SingleOrDefaultAsync(x => x.Email == email && x.DeleteDate == null);
+            var user = await _context.User.Include(x => x.Role).SingleOrDefaultAsync(x => x.Email == email && x.DeleteDate == null);
             if (user == null)
                 throw new Exception("User is not found");
 
@@ -134,7 +134,7 @@ namespace Repository.Users
         public async Task<string> UpdateUser(UpdateUserRequestModel user)
         {
             var checkUser = await _context.User.SingleOrDefaultAsync(x => x.ID == user.ID && x.DeleteDate == null);
-            if (checkUser != null)
+            if (checkUser == null)
                 throw new InvalidDataException("User is not found");
 
             var checkEmail = await _context.User.AnyAsync(x => x.Email == user.Email && x.ID != user.ID && x.DeleteDate == null);
@@ -145,19 +145,17 @@ namespace Repository.Users
             if (checkPhone)
                 throw new InvalidDataException("Phone is existing");
 
-            var newUser = new UserEntity()
-            {
-                Name = user.Name,
-                Email = user.Email,
-                Gender = user.Gender,
-                Phone = user.Phone,
-                Status = user.Status,
-                RoleID = user.RoleID,
-                UpdateByID = _currentUserService.UserId,
-                UpdateDate = DateTime.Now
-            };
+            checkUser.Name = user.Name;
+            checkUser.Email = user.Email;
+            checkUser.Gender = user.Gender;
+            checkUser.Phone = user.Phone;
+            checkUser.Status = user.Status;
+            checkUser.RoleID = user.RoleID;
+            checkUser.UpdateByID = _currentUserService.UserId;
+            checkUser.UpdateDate = DateTime.Now;
+            
 
-            _context.User.Update(newUser);
+            _context.User.Update(checkUser);
             if (await _context.SaveChangesAsync() > 0)
                 return "Update Successfully";
             else
