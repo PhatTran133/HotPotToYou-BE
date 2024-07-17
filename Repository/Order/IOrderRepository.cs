@@ -24,6 +24,11 @@ namespace Repository.Order
           DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize);
         Task<List<OrderResponseModel>> GetDeliveredOrders(string? search, string? sortBy,
            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize);
+        Task<List<OrderResponseModel>> GetCanceledOrders(string? search, string? sortBy,
+           DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize);
         Task<OrderDetailResponseModel> GetOrderByID(int id);
+        Task<string> UpdateOrderToInProcess(int id);
+        Task<string> UpdateOrderToDelivered(int id);
+        Task<string> UpdateOrderToCanceled(int id);
     }
 }

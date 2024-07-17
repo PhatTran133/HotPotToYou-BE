@@ -54,7 +54,7 @@ namespace Repository.Order
             {
                 if (item.Type == "hotpot")
                 {
-                    var hotpotDetail = new HotPotPackageEntity() 
+                    var hotpotDetail = new HotPotPackageEntity()
                     {
                         OrderId = order.ID,
                         HotPotID = item.Id,
@@ -109,20 +109,10 @@ namespace Repository.Order
                 return "Create Order Failed";
         }
 
-        public async Task<string> UpdateOrderAfterPaying()
-        {
-            var userID = Convert.ToInt32(_currentUserService.UserId);
-            var order = await _context.Order.FirstOrDefaultAsync(x => x.CustomerID == userID);
-            var activity = await _context.ActivityType.FirstOrDefaultAsync(x => x.Name.Equals("Đang chờ xác nhận"));
-            order.OrderActivity.ActivityTypeID = activity.ID;
-            if (await _context.SaveChangesAsync() > 0)
-                return "Update Order Successfully";
-            else
-                return "Update Order Failed";
-        }
-
         public async Task<string> UpdateOrder(UpdateOrderRequestModel order)
         {
+
+
             var orderEntity = await _context.Order.SingleOrDefaultAsync(x => x.ID == order.ID);
             if (orderEntity == null)
                 throw new InvalidDataException("Order is not found");
@@ -155,7 +145,18 @@ namespace Repository.Order
             else
                 return "Delete Order Failed";
         }
+        public async Task<string> UpdateOrderAfterPaying()
+        {
+            var userID = Convert.ToInt32(_currentUserService.UserId);
+            var order = await _context.Order.FirstOrDefaultAsync(x => x.CustomerID == userID);
+            var activity = await _context.ActivityType.FirstOrDefaultAsync(x => x.Name.Equals("Đang chờ xác nhận"));
+            order.OrderActivity.ActivityTypeID = activity.ID;
 
+            if (await _context.SaveChangesAsync() > 0)
+                return "Update Order Successfully";
+            else
+                return "Update Order Failed";
+        }
         public async Task<List<OrderResponseModel>> GetWaitForPayOrders(string? search, string? sortBy,
             DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
         {
@@ -308,10 +309,49 @@ namespace Repository.Order
 
             return _mapper.Map<List<OrderResponseModel>>(paginatedOrders);
         }
+        public async Task<List<OrderResponseModel>> GetCanceledOrders(string? search, string? sortBy,
+           DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đã hủy"));
+
+            // Search by address
+            if (!string.IsNullOrEmpty(search))
+            {
+                orders = orders.Where(x => x.Adress.Contains(search));
+            }
+
+            // Filter by date range
+            if (fromDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate >= fromDate.Value);
+            }
+            if (toDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate <= toDate.Value);
+            }
+
+            // Sort by specified field
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy.Equals("ascDate"))
+                {
+                    orders = orders.OrderBy(x => x.PurchaseDate);
+                }
+                else if (sortBy.Equals("descDate"))
+                {
+                    orders = orders.OrderByDescending(x => x.PurchaseDate);
+                }
+            }
+
+            var paginatedOrders = PaginatedList<OrderEntity>.Create(orders, pageIndex, pageSize);
+
+            return _mapper.Map<List<OrderResponseModel>>(paginatedOrders);
+        }
         public async Task<OrderDetailResponseModel> GetOrderByID(int id)
         {
             var order = await _context.Order
                 .Include(x => x.Customer)
+                .Include(x => x.Payment)
                 .Include(x => x.HotPotPackages) // Nạp các món hotpot
                     .ThenInclude(hp => hp.HotPot)
                 .Include(x => x.OrderUtensils) // Nạp các dụng cụ
@@ -324,23 +364,23 @@ namespace Repository.Order
             var orderResponse = new OrderDetailResponseModel
             {
                 PurchaseDate = order.PurchaseDate,
-                CustomerID = order.CustomerID,
+                Email = order.Customer.Email,
                 Adress = order.Adress,
                 TotalPrice = order.TotalPrice,
-                PaymentID = order.PaymentID,
+                Payment = order.Payment.Name,
                 PaymentStatus = order.PaymentStatus,
-                Items = new List<OrderItemResponse>()
+                Items = new List<OrderItemResponse>(),
+                Activities = new List<Activity>()
             };
 
             foreach (var hotpotPackage in order.HotPotPackages)
             {
                 orderResponse.Items.Add(new OrderItemResponse
                 {
-                    Type = "hotpot",
+                    Type = "Hot Pot",
                     Id = hotpotPackage.HotPotID,
                     Quantity = hotpotPackage.Quantity,
                     Total = hotpotPackage.Total,
-                    IsPackage = false // You may need to adjust this based on your data model
                 });
             }
 
@@ -350,29 +390,105 @@ namespace Repository.Order
                 {
                     orderResponse.Items.Add(new OrderItemResponse
                     {
-                        Type = "utensil",
+                        Type = "Utensil",
                         Id = utensilDetail.UtensilID,
                         Quantity = utensilDetail.Quantity,
                         Total = utensilDetail.Total,
-                        IsPackage = false // Adjust based on your data model
                     });
                 }
                 else if (utensilDetail.UtensilPackageID != 0)
                 {
                     orderResponse.Items.Add(new OrderItemResponse
                     {
-                        Type = "utensil",
+                        Type = "Pot",
                         Id = utensilDetail.UtensilPackageID,
                         Quantity = utensilDetail.Quantity,
                         Total = utensilDetail.Total,
-                        IsPackage = true // Adjust based on your data model
                     });
                 }
             }
 
-            return _mapper.Map<OrderDetailResponseModel>(orderResponse); 
+            var orderActivities = await _context.OrderActivity
+                .Include(x => x.ActivityType)
+                .Where(x => x.OrderID == order.ID)
+                .ToListAsync();
+
+            foreach (var orderActivity in orderActivities)
+            {
+                orderResponse.Activities.Add(new Activity
+                {
+                    Action = orderActivity.ActivityType.Name,
+                    DateTime = orderActivity.DateTime
+                });
+            }
+
+            return _mapper.Map<OrderDetailResponseModel>(orderResponse);
         }
 
+        public async Task<string> UpdateOrderToInProcess(int id)
+        {
+            var order = await _context.Order.SingleOrDefaultAsync(x => x.ID == id);
+            if (order == null)
+                throw new InvalidDataException("Order is not found");
 
+            var activity = await _context.ActivityType.FirstOrDefaultAsync(x => x.Name.Equals("Đang vận chuyển"));
+
+            var orderActivity = new OrderActivityEntity
+            {
+                OrderID = order.ID,
+                ActivityTypeID = activity.ID,
+                DateTime = DateTime.Now
+            };
+
+            _context.OrderActivity.Add(orderActivity);
+            if (await _context.SaveChangesAsync() > 0)
+                return "Update Order Successfully";
+            else
+                return "Update Order Failed";
+        }
+
+        public async Task<string> UpdateOrderToDelivered(int id)
+        {
+            var order = await _context.Order.SingleOrDefaultAsync(x => x.ID == id);
+            if (order == null)
+                throw new InvalidDataException("Order is not found");
+
+            var activity = await _context.ActivityType.FirstOrDefaultAsync(x => x.Name.Equals("Đã giao hàng"));
+            var orderActivity = new OrderActivityEntity
+            {
+                OrderID = order.ID,
+                ActivityTypeID = activity.ID,
+                DateTime = DateTime.Now
+            };
+
+            _context.OrderActivity.Add(orderActivity);
+
+            if (await _context.SaveChangesAsync() > 0)
+                return "Update Order Successfully";
+            else
+                return "Update Order Failed";
+        }
+
+        public async Task<string> UpdateOrderToCanceled(int id)
+        {
+            var order = await _context.Order.SingleOrDefaultAsync(x => x.ID == id);
+            if (order == null)
+                throw new InvalidDataException("Order is not found");
+
+            var activity = await _context.ActivityType.FirstOrDefaultAsync(x => x.Name.Equals("Đã hủy"));
+            var orderActivity = new OrderActivityEntity
+            {
+                OrderID = order.ID,
+                ActivityTypeID = activity.ID,
+                DateTime = DateTime.Now
+            };
+
+            _context.OrderActivity.Add(orderActivity);
+
+            if (await _context.SaveChangesAsync() > 0)
+                return "Update Order Successfully";
+            else
+                return "Update Order Failed";
+        }
     }
 }

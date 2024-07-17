@@ -61,10 +61,31 @@ namespace Service.Order
         {
             return await _orderRepository.GetDeliveredOrders(search, sortBy, fromDate, toDate, pageIndex, pageSize);
         }
+        public async Task<List<OrderResponseModel>> GetCanceledOrders(string? search, string? sortBy, DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            return await _orderRepository.GetCanceledOrders(search, sortBy, fromDate, toDate, pageIndex, pageSize);
+        }
 
         public async Task<string> UpdateOrderAfterPaying()
         {
             return await _orderRepository.UpdateOrderAfterPaying();
         }
+
+        public async Task<string> UpdateOrderToInProcess(int id)
+        {
+            return await _orderRepository.UpdateOrderToInProcess(id);
+        }
+
+        public async Task<string> UpdateOrderToDelivered(int id)
+        {
+            return await _orderRepository.UpdateOrderToDelivered(id);
+        }
+
+        public async Task<string> UpdateOrderToCanceled(int id)
+        {
+            return await _orderRepository.UpdateOrderToCanceled(id);
+        }
+
+        
     }
 }
