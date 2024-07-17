@@ -533,37 +533,37 @@ namespace Repository.Migrations
                 name: "IX_HotPotIngredient_HotpotID",
                 table: "HotPotIngredient",
                 column: "HotpotID",
-                unique: true);
+                unique: true);// xóa unique
 
             migrationBuilder.CreateIndex(
                 name: "IX_HotPotIngredient_IngredientId",
                 table: "HotPotIngredient",
                 column: "IngredientId",
-                unique: true);
+                unique: true);// xóa unique
 
             migrationBuilder.CreateIndex(
                 name: "IX_HotPotPackage_HotPotID",
                 table: "HotPotPackage",
                 column: "HotPotID",
-                unique: true);
+                unique: true);// xóa unique
 
             migrationBuilder.CreateIndex(
                 name: "IX_HotPotPackage_OrderId",
                 table: "HotPotPackage",
                 column: "OrderId",
-                unique: true);
+                unique: true);// xóa unique
 
             migrationBuilder.CreateIndex(
                 name: "IX_HotPotUtensilType_HotPotTypeID",
                 table: "HotPotUtensilType",
                 column: "HotPotTypeID",
-                unique: true);
+                unique: true);// xóa unique
 
             migrationBuilder.CreateIndex(
                 name: "IX_HotPotUtensilType_UtensilID",
                 table: "HotPotUtensilType",
                 column: "UtensilID",
-                unique: true);
+                unique: true);// xóa unique
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ingredient_GroupID",
@@ -574,7 +574,7 @@ namespace Repository.Migrations
                 name: "IX_Order_CustomerID",
                 table: "Order",
                 column: "CustomerID",
-                unique: true);
+                unique: true);// xóa unique
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_PaymentID",
@@ -585,31 +585,31 @@ namespace Repository.Migrations
                 name: "IX_OrderActivity_ActivityTypeID",
                 table: "OrderActivity",
                 column: "ActivityTypeID",
-                unique: true);
+                unique: true);// xóa unique
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderActivity_OrderID",
                 table: "OrderActivity",
                 column: "OrderID",
-                unique: true);
+                unique: true);// xóa unique
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderUtensil_OrderID",
                 table: "OrderUtensil",
                 column: "OrderID",
-                unique: true);
+                unique: true);// xóa unique
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderUtensil_UtensilID",
                 table: "OrderUtensil",
                 column: "UtensilID",
-                unique: true);
+                unique: true);// xóa unique
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderUtensil_UtensilPackageID",
                 table: "OrderUtensil",
                 column: "UtensilPackageID",
-                unique: true);
+                unique: true);// xóa unique
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_RoleID",
@@ -620,13 +620,13 @@ namespace Repository.Migrations
                 name: "IX_UtensilDetai_PackageID",
                 table: "UtensilDetai",
                 column: "PackageID",
-                unique: true);
+                unique: true);// xóa unique
 
             migrationBuilder.CreateIndex(
                 name: "IX_UtensilDetai_UtensilID",
                 table: "UtensilDetai",
                 column: "UtensilID",
-                unique: true);
+                unique: true);// xóa unique
         }
 
         /// <inheritdoc />
