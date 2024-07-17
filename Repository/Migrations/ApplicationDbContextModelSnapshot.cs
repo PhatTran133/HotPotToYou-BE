@@ -558,12 +558,12 @@ namespace Repository.Migrations
                     b.Property<string>("OrderCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PaymentID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PaymentStatus")
+                    b.Property<string>("OrderStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PaymentID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
@@ -625,10 +625,12 @@ namespace Repository.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UtensilID")
+                    b.Property<int?>("UtensilID")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("UtensilPackageID")
+                    b.Property<int?>("UtensilPackageID")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("ID");

@@ -28,7 +28,7 @@ namespace Repository.Entity
         public int PaymentID { get; set; }
         [ForeignKey(nameof(PaymentID))]
         public virtual PaymentEntity Payment { get; set; }
-        public string PaymentStatus { get; set; }
+        public string OrderStatus { get; set; }
         public string? OrderCode { get; set; }
 
         public virtual List<HotPotPackageEntity> HotPotPackages { get; set; }

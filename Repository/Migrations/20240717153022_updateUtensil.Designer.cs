@@ -564,7 +564,7 @@ namespace Repository.Migrations
                     b.Property<int>("PaymentID")
                         .HasColumnType("int");
 
-                    b.Property<string>("PaymentStatus")
+                    b.Property<string>("OrderStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

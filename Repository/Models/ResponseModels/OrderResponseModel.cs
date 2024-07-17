@@ -14,7 +14,7 @@ namespace Repository.Models.ResponseModels
         public string Adress { get; set; }
         public decimal TotalPrice { get; set; }
         public string Payment { get; set; }
-        public string PaymentStatus { get; set; }
+        public string OrderStatus { get; set; }
     }
 
     public class OrderDetailResponseModel
@@ -25,7 +25,7 @@ namespace Repository.Models.ResponseModels
         public string Adress { get; set; }
         public decimal TotalPrice { get; set; }
         public string Payment { get; set; }
-        public string PaymentStatus { get; set; }
+        public string OrderStatus { get; set; }
         public List<OrderItemResponse> Items { get; set; }
         public List<Activity> Activities { get; set; }
     }
@@ -33,7 +33,7 @@ namespace Repository.Models.ResponseModels
     public class OrderItemResponse
     {
 
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Type { get; set; }
         public int Quantity { get; set; }
         public decimal Total { get; set; }

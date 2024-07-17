@@ -65,7 +65,25 @@ namespace Service.Order
         {
             return await _orderRepository.GetCanceledOrders(search, sortBy, fromDate, toDate, pageIndex, pageSize);
         }
+        public async Task<List<OrderResponseModel>> GetPendingOrdersByCustomerID(int customerID, string? search, string? sortBy, DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            return await _orderRepository.GetPendingOrdersByCustomerID(customerID, search, sortBy, fromDate, toDate, pageIndex, pageSize);
+        }
 
+        public async Task<List<OrderResponseModel>> GetInProcessOrdersByCustomerID(int customerID, string? search, string? sortBy, DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            return await _orderRepository.GetInProcessOrdersByCustomerID(customerID, search, sortBy, fromDate, toDate, pageIndex, pageSize);
+        }
+
+        public async Task<List<OrderResponseModel>> GetDeliveredOrdersByCustomerID(int customerID, string? search, string? sortBy, DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            return await _orderRepository.GetDeliveredOrdersByCustomerID(customerID, search, sortBy, fromDate, toDate, pageIndex, pageSize);
+        }
+
+        public async Task<List<OrderResponseModel>> GetCanceledOrdersByCustomerID(int customerID, string? search, string? sortBy, DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            return await _orderRepository.GetCanceledOrdersByCustomerID(customerID, search, sortBy, fromDate, toDate, pageIndex, pageSize);
+        }
         public async Task<string> UpdateOrderAfterPaying()
         {
             return await _orderRepository.UpdateOrderAfterPaying();
