@@ -430,8 +430,7 @@ namespace Repository.Migrations
                     b.HasIndex("HotPotID")
                         .IsUnique();
 
-                    b.HasIndex("OrderId")
-                        .IsUnique();
+                    b.HasIndex("OrderId");
 
                     b.ToTable("HotPotPackage");
                 });
@@ -559,12 +558,12 @@ namespace Repository.Migrations
                     b.Property<string>("OrderCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PaymentID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PaymentStatus")
+                    b.Property<string>("OrderStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PaymentID")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("PurchaseDate")
                         .HasColumnType("datetime2");
@@ -626,16 +625,17 @@ namespace Repository.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UtensilID")
+                    b.Property<int?>("UtensilID")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("UtensilPackageID")
+                    b.Property<int?>("UtensilPackageID")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("OrderID")
-                        .IsUnique();
+                    b.HasIndex("OrderID");
 
                     b.HasIndex("UtensilID")
                         .IsUnique();
@@ -750,6 +750,10 @@ namespace Repository.Migrations
 
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Material")
                         .IsRequired()
@@ -879,8 +883,8 @@ namespace Repository.Migrations
                         .IsRequired();
 
                     b.HasOne("Repository.Entity.OrderEntity", "Order")
-                        .WithOne("HotPotPackage")
-                        .HasForeignKey("Repository.Entity.HotPotPackageEntity", "OrderId")
+                        .WithMany("HotPotPackages")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -960,8 +964,8 @@ namespace Repository.Migrations
             modelBuilder.Entity("Repository.Entity.OrderUtensilEntity", b =>
                 {
                     b.HasOne("Repository.Entity.OrderEntity", "Order")
-                        .WithOne("OrderUtensil")
-                        .HasForeignKey("Repository.Entity.OrderUtensilEntity", "OrderID")
+                        .WithMany("OrderUtensils")
+                        .HasForeignKey("OrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1066,14 +1070,12 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Repository.Entity.OrderEntity", b =>
                 {
-                    b.Navigation("HotPotPackage")
-                        .IsRequired();
+                    b.Navigation("HotPotPackages");
 
                     b.Navigation("OrderActivity")
                         .IsRequired();
 
-                    b.Navigation("OrderUtensil")
-                        .IsRequired();
+                    b.Navigation("OrderUtensils");
                 });
 
             modelBuilder.Entity("Repository.Entity.UserEntity", b =>

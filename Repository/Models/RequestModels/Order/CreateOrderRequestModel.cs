@@ -13,7 +13,6 @@ namespace Repository.Models.RequestModels.Order
         public string Adress { get; set; }
         public decimal TotalPrice { get; set; }
         public int PaymentID { get; set; }
-        public string PaymentStatus { get; set; }
         public List<OrderItem> Items { get; set; }
     }
 

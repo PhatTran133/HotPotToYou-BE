@@ -142,7 +142,62 @@ namespace HotPotToYou.Controllers
                 return BadRequest(new JsonResponse<string>(ex.Message));
             }
         }
-
+        [HttpGet("get-pending-orders-by-customer-id")]
+        public async Task<ActionResult<List<JsonResponse<OrderResponseModel>>>> GetPendingOrdersByCustomerID(int customerID,string? search, string? sortBy,
+            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            try
+            {
+                var orders = await _orderService.GetPendingOrdersByCustomerID(customerID,search, sortBy, fromDate, toDate, pageIndex, pageSize);
+                return Ok(new JsonResponse<List<OrderResponseModel>>(orders));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+        }
+        [HttpGet("get-in-process-orders-by-customer-id")]
+        public async Task<ActionResult<List<JsonResponse<OrderResponseModel>>>> GetInProcessOrdersByCustomerID(int customerID, string? search, string? sortBy,
+            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            try
+            {
+                var orders = await _orderService.GetInProcessOrdersByCustomerID(customerID, search, sortBy, fromDate, toDate, pageIndex, pageSize);
+                return Ok(new JsonResponse<List<OrderResponseModel>>(orders));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+        }
+        [HttpGet("get-delivered-orders-by-customer-id")]
+        public async Task<ActionResult<List<JsonResponse<OrderResponseModel>>>> GetDeliveredOrdersByCustomerID(int customerID, string? search, string? sortBy,
+            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            try
+            {
+                var orders = await _orderService.GetDeliveredOrdersByCustomerID(customerID, search, sortBy, fromDate, toDate, pageIndex, pageSize);
+                return Ok(new JsonResponse<List<OrderResponseModel>>(orders));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+        }
+        [HttpGet("get-canceled-orders-by-customer-id")]
+        public async Task<ActionResult<List<JsonResponse<OrderResponseModel>>>> GetCanceledOrdersByCustomerID(int customerID, string? search, string? sortBy,
+            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            try
+            {
+                var orders = await _orderService.GetCanceledOrdersByCustomerID(customerID, search, sortBy, fromDate, toDate, pageIndex, pageSize);
+                return Ok(new JsonResponse<List<OrderResponseModel>>(orders));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new JsonResponse<string>(ex.Message));
+            }
+        }
         [HttpGet("get-order-by-id")]
         public async Task<ActionResult<JsonResponse<OrderDetailResponseModel>>> GetOrderByID(int id)
         {

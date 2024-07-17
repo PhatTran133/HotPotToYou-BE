@@ -19,6 +19,7 @@ namespace Repository.Entity
         public string Material { get; set; }
         public string Size { get; set; }
         public int Quantity { get; set; }
+        public string ImageUrl { get; set; }
 
         [Column(TypeName = "decimal(18, 4)")]
         public decimal Price { get; set; }

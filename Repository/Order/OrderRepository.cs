@@ -42,13 +42,39 @@ namespace Repository.Order
                 TotalPrice = orderRequest.TotalPrice,
                 Status = true,
                 PaymentID = orderRequest.PaymentID,
-                PaymentStatus = "Chưa hoàn thành",
+                OrderStatus = "Đang chờ xác nhận",
                 CreateByID = _currentUserService.UserId,
                 CreateDate = DateTime.Now
             };
 
             _context.Order.Add(order);
             await _context.SaveChangesAsync();
+
+            var tempUtensil = await _context.Utensil.SingleOrDefaultAsync(x => x.Name.Equals("temp data"));
+
+            var tempUtensilPackage = await _context.UtensilPackage.SingleOrDefaultAsync(x => x.ID == 1);
+
+
+            if (tempUtensilPackage == null)
+            {
+                var utensilPackage = new UtensilPackageEntity()
+                {
+                    MinPeople = 1,
+                    MaxPeople = 1,
+                };
+                _context.UtensilPackage.Add(utensilPackage);
+                await _context.SaveChangesAsync();
+
+                var newUtensilDetail = new UtensilDetailEntity()
+                {
+                    UtensilID = tempUtensil.ID,
+                    PackageID = utensilPackage.ID
+                };
+
+                _context.UtensilDetail.Add(newUtensilDetail);
+                await _context.SaveChangesAsync();
+            }
+
 
             foreach (var item in orderRequest.Items)
             {
@@ -65,34 +91,21 @@ namespace Repository.Order
                 }
                 else if (item.Type == "utensil")
                 {
-                    if (item.IsPackage)
+
+                    var utensilDetail = new OrderUtensilEntity()
                     {
-                        var utensilDetail = new OrderUtensilEntity()
-                        {
-                            OrderID = order.ID,
-                            UtensilID = 0,
-                            UtensilPackageID = item.Id,
-                            Quantity = item.Quantity,
-                            Total = item.Total
-                        };
-                        _context.OrderUtensil.Add(utensilDetail);
-                    }
-                    else
-                    {
-                        var utensilDetail = new OrderUtensilEntity
-                        {
-                            OrderID = order.ID,
-                            UtensilID = item.Id,
-                            UtensilPackageID = 0,
-                            Quantity = item.Quantity,
-                            Total = item.Total
-                        };
-                        _context.OrderUtensil.Add(utensilDetail);
-                    }
+                        OrderID = order.ID,
+                        UtensilID = item.Id,
+                        UtensilPackageID = tempUtensilPackage.ID,
+                        Quantity = item.Quantity,
+                        Total = item.Total
+                    };
+                    _context.OrderUtensil.Add(utensilDetail);
+
                 }
             }
 
-            var orderActivityID = await _context.ActivityType.FirstOrDefaultAsync(x => x.Name.Equals("Đang chờ thanh toán"));
+            var orderActivityID = await _context.ActivityType.FirstOrDefaultAsync(x => x.Name.Equals("Đang chờ xác nhận"));
 
             var orderActivity = new OrderActivityEntity
             {
@@ -123,7 +136,6 @@ namespace Repository.Order
             orderEntity.TotalPrice = order.TotalPrice;
             orderEntity.Status = order.Status;
             orderEntity.PaymentID = order.PaymentID;
-            orderEntity.PaymentStatus = order.PaymentStatus;
             // Update additional properties if needed
 
             _context.Order.Update(orderEntity);
@@ -198,7 +210,7 @@ namespace Repository.Order
         public async Task<List<OrderResponseModel>> GetPendingOrders(string? search, string? sortBy,
            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
         {
-            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đang chờ xác nhận"));
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.Status == true && x.OrderStatus.Equals("Đang chờ xác nhận"));
 
             // Search by address
             if (!string.IsNullOrEmpty(search))
@@ -236,7 +248,7 @@ namespace Repository.Order
         public async Task<List<OrderResponseModel>> GetInProcessOrders(string? search, string? sortBy,
            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
         {
-            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đang vận chuyển"));
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.Status == true && x.OrderStatus.Equals("Đang vận chuyển"));
 
             // Search by address
             if (!string.IsNullOrEmpty(search))
@@ -274,7 +286,7 @@ namespace Repository.Order
         public async Task<List<OrderResponseModel>> GetDeliveredOrders(string? search, string? sortBy,
            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
         {
-            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đã giao hàng"));
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.Status == true && x.OrderStatus.Equals("Đã giao hàng"));
 
             // Search by address
             if (!string.IsNullOrEmpty(search))
@@ -312,7 +324,159 @@ namespace Repository.Order
         public async Task<List<OrderResponseModel>> GetCanceledOrders(string? search, string? sortBy,
            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
         {
-            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đã hủy"));
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.Status == true && x.OrderStatus.Equals("Đã hủy"));
+
+            // Search by address
+            if (!string.IsNullOrEmpty(search))
+            {
+                orders = orders.Where(x => x.Adress.Contains(search));
+            }
+
+            // Filter by date range
+            if (fromDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate >= fromDate.Value);
+            }
+            if (toDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate <= toDate.Value);
+            }
+
+            // Sort by specified field
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy.Equals("ascDate"))
+                {
+                    orders = orders.OrderBy(x => x.PurchaseDate);
+                }
+                else if (sortBy.Equals("descDate"))
+                {
+                    orders = orders.OrderByDescending(x => x.PurchaseDate);
+                }
+            }
+
+            var paginatedOrders = PaginatedList<OrderEntity>.Create(orders, pageIndex, pageSize);
+
+            return _mapper.Map<List<OrderResponseModel>>(paginatedOrders);
+        }
+        public async Task<List<OrderResponseModel>> GetPendingOrdersByCustomerID(int customerID, string? search, string? sortBy,
+           DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.CustomerID == customerID && x.Status == true && x.OrderStatus.Equals("Đang chờ xác nhận"));
+
+            // Search by address
+            if (!string.IsNullOrEmpty(search))
+            {
+                orders = orders.Where(x => x.Adress.Contains(search));
+            }
+
+            // Filter by date range
+            if (fromDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate >= fromDate.Value);
+            }
+            if (toDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate <= toDate.Value);
+            }
+
+            // Sort by specified field
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy.Equals("ascDate"))
+                {
+                    orders = orders.OrderBy(x => x.PurchaseDate);
+                }
+                else if (sortBy.Equals("descDate"))
+                {
+                    orders = orders.OrderByDescending(x => x.PurchaseDate);
+                }
+            }
+
+            var paginatedOrders = PaginatedList<OrderEntity>.Create(orders, pageIndex, pageSize);
+
+            return _mapper.Map<List<OrderResponseModel>>(paginatedOrders);
+        }
+        public async Task<List<OrderResponseModel>> GetInProcessOrdersByCustomerID(int customerID, string? search, string? sortBy,
+           DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.CustomerID == customerID && x.Status == true && x.OrderStatus.Equals("Đang vận chuyển"));
+
+            // Search by address
+            if (!string.IsNullOrEmpty(search))
+            {
+                orders = orders.Where(x => x.Adress.Contains(search));
+            }
+
+            // Filter by date range
+            if (fromDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate >= fromDate.Value);
+            }
+            if (toDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate <= toDate.Value);
+            }
+
+            // Sort by specified field
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy.Equals("ascDate"))
+                {
+                    orders = orders.OrderBy(x => x.PurchaseDate);
+                }
+                else if (sortBy.Equals("descDate"))
+                {
+                    orders = orders.OrderByDescending(x => x.PurchaseDate);
+                }
+            }
+
+            var paginatedOrders = PaginatedList<OrderEntity>.Create(orders, pageIndex, pageSize);
+
+            return _mapper.Map<List<OrderResponseModel>>(paginatedOrders);
+        }
+        public async Task<List<OrderResponseModel>> GetDeliveredOrdersByCustomerID(int customerID,string? search, string? sortBy,
+           DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.CustomerID == customerID && x.Status == true && x.OrderStatus.Equals("Đã giao hàng"));
+
+            // Search by address
+            if (!string.IsNullOrEmpty(search))
+            {
+                orders = orders.Where(x => x.Adress.Contains(search));
+            }
+
+            // Filter by date range
+            if (fromDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate >= fromDate.Value);
+            }
+            if (toDate.HasValue)
+            {
+                orders = orders.Where(x => x.PurchaseDate <= toDate.Value);
+            }
+
+            // Sort by specified field
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                if (sortBy.Equals("ascDate"))
+                {
+                    orders = orders.OrderBy(x => x.PurchaseDate);
+                }
+                else if (sortBy.Equals("descDate"))
+                {
+                    orders = orders.OrderByDescending(x => x.PurchaseDate);
+                }
+            }
+
+            var paginatedOrders = PaginatedList<OrderEntity>.Create(orders, pageIndex, pageSize);
+
+            return _mapper.Map<List<OrderResponseModel>>(paginatedOrders);
+        }
+        public async Task<List<OrderResponseModel>> GetCanceledOrdersByCustomerID(int customerID,string? search, string? sortBy,
+           DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        {
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.CustomerID == customerID && x.Status == true && x.OrderStatus.Equals("Đã hủy"));
 
             // Search by address
             if (!string.IsNullOrEmpty(search))
@@ -368,7 +532,7 @@ namespace Repository.Order
                 Adress = order.Adress,
                 TotalPrice = order.TotalPrice,
                 Payment = order.Payment.Name,
-                PaymentStatus = order.PaymentStatus,
+                OrderStatus = order.OrderStatus,
                 Items = new List<OrderItemResponse>(),
                 Activities = new List<Activity>()
             };
@@ -386,7 +550,7 @@ namespace Repository.Order
 
             foreach (var utensilDetail in order.OrderUtensils)
             {
-                if (utensilDetail.UtensilID != 0)
+                if (utensilDetail.Utensil.Type.Equals("pot"))
                 {
                     orderResponse.Items.Add(new OrderItemResponse
                     {
@@ -396,7 +560,7 @@ namespace Repository.Order
                         Total = utensilDetail.Total,
                     });
                 }
-                else if (utensilDetail.UtensilPackageID != 0)
+                else if (utensilDetail.Utensil.Type.Equals("utensil"))
                 {
                     orderResponse.Items.Add(new OrderItemResponse
                     {
@@ -431,6 +595,7 @@ namespace Repository.Order
             if (order == null)
                 throw new InvalidDataException("Order is not found");
 
+            order.OrderStatus = "Đang vận chuyển";
             var activity = await _context.ActivityType.FirstOrDefaultAsync(x => x.Name.Equals("Đang vận chuyển"));
 
             var orderActivity = new OrderActivityEntity
@@ -452,7 +617,7 @@ namespace Repository.Order
             var order = await _context.Order.SingleOrDefaultAsync(x => x.ID == id);
             if (order == null)
                 throw new InvalidDataException("Order is not found");
-
+            order.OrderStatus = "Đã giao hàng";
             var activity = await _context.ActivityType.FirstOrDefaultAsync(x => x.Name.Equals("Đã giao hàng"));
             var orderActivity = new OrderActivityEntity
             {
@@ -474,7 +639,7 @@ namespace Repository.Order
             var order = await _context.Order.SingleOrDefaultAsync(x => x.ID == id);
             if (order == null)
                 throw new InvalidDataException("Order is not found");
-
+            order.OrderStatus = "Đã hủy";
             var activity = await _context.ActivityType.FirstOrDefaultAsync(x => x.Name.Equals("Đã hủy"));
             var orderActivity = new OrderActivityEntity
             {

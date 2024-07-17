@@ -62,7 +62,6 @@ D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Debug\net7.0\HotPotToYou.Genera
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Debug\net7.0\HotPotToYou.AssemblyInfoInputs.cache
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Debug\net7.0\HotPotToYou.AssemblyInfo.cs
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Debug\net7.0\HotPotToYou.csproj.CoreCompileInputs.cache
-D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Debug\net7.0\HotPotToYou.MvcApplicationPartsAssemblyInfo.cs
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Debug\net7.0\HotPotToYou.MvcApplicationPartsAssemblyInfo.cache
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Debug\net7.0\staticwebassets\msbuild.HotPotToYou.Microsoft.AspNetCore.StaticWebAssets.props
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Debug\net7.0\staticwebassets\msbuild.build.HotPotToYou.props
@@ -265,3 +264,4 @@ C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\HotPotToYou\obj\Debug\ne
 C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\HotPotToYou\obj\Debug\net7.0\ref\HotPotToYou.dll
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\bin\Debug\net7.0\AWSSDK.Core.dll
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\bin\Debug\net7.0\AWSSDK.S3.dll
+D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Debug\net7.0\HotPotToYou.MvcApplicationPartsAssemblyInfo.cs
