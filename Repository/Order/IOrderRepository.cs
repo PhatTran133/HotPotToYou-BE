@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repository.Entity;
 using Repository.Models.RequestModels.Order;
+using Repository.Models.ResponseModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,6 @@ namespace Repository.Order
           DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize);
         Task<List<OrderResponseModel>> GetDeliveredOrders(string? search, string? sortBy,
            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize);
-        Task<OrderResponseModel> GetOrderByID(int id);
+        Task<OrderDetailResponseModel> GetOrderByID(int id);
     }
 }

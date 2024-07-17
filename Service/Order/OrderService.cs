@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Repository.Models.RequestModels.Order;
+using Repository.Models.ResponseModels;
 using Repository.Order;
 using System;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace Service.Order
         }
 
 
-        public async Task<OrderResponseModel> GetOrderByID(int id)
+        public async Task<OrderDetailResponseModel> GetOrderByID(int id)
         {
             return await _orderRepository.GetOrderByID(id);
         }

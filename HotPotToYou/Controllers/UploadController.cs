@@ -1,5 +1,6 @@
 ﻿using Amazon;
 using Amazon.S3;
+using Amazon.S3.Model;
 using Amazon.S3.Transfer;
 using HotPotToYou.Controllers.ResponseType;
 using Microsoft.AspNetCore.Http;
@@ -12,35 +13,38 @@ namespace HotPotToYou.Controllers
     [ApiController]
     public class UploadController : ControllerBase
     {
-        private const string bucketName = "image-hotpottoyou";
-        private static readonly RegionEndpoint bucketRegion = RegionEndpoint.APSoutheast2;
-        private readonly IAmazonS3 s3Client;
+        private readonly IAmazonS3 _s3Client;
+        private readonly string _bucketName = "image-hotpottoyou";
         public UploadController()
         {
-            var awsAccessKeyId = Environment.GetEnvironmentVariable("AWS_ACCESS_KEY_ID");
-            var awsSecretAccessKey = Environment.GetEnvironmentVariable("AWS_SECRET_ACCESS_KEY");
-
-            s3Client = new AmazonS3Client(awsAccessKeyId, awsSecretAccessKey, bucketRegion);
+            _s3Client = new AmazonS3Client();
         }
 
         [HttpPost("upload")]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public async Task<ActionResult<JsonResponse<string>>> UploadFile(IFormFile file)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded.");
 
-            var keyName = file.FileName;
-
             try
             {
-                using (var stream = new MemoryStream())
+                var filePath = Path.GetTempFileName();
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);
-                    var fileTransferUtility = new TransferUtility(s3Client);
-                    await fileTransferUtility.UploadAsync(stream, bucketName, keyName);
                 }
 
-                var fileUrl = $"https://{bucketName}.s3.{bucketRegion.SystemName}.amazonaws.com/{keyName}";
+                var putRequest = new PutObjectRequest
+                {
+                    BucketName = _bucketName,
+                    Key = file.FileName,
+                    FilePath = filePath,
+                    ContentType = file.ContentType
+                };
+
+                await _s3Client.PutObjectAsync(putRequest);
+                string fileUrl = $"https://{_bucketName}.s3.amazonaws.com/{file.FileName}";
+
                 return Ok(new JsonResponse<string>(fileUrl));
             }
             catch (AmazonS3Exception e)
@@ -52,6 +56,29 @@ namespace HotPotToYou.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = $"Unknown encountered on server. Message:'{e.Message}'" });
             }
         }
+
+        [HttpDelete("upload")]
+        public async Task DeleteFile(string imageUrl)
+        {
+
+            Uri uri;
+            if (!Uri.TryCreate(imageUrl, UriKind.Absolute, out uri))
+            {
+                throw new ArgumentException("Invalid image URL");
+            }
+
+            var imageKey = Path.GetFileName(uri.LocalPath);
+
+            var deleteRequest = new DeleteObjectRequest
+            {
+                BucketName = _bucketName,
+                Key = imageKey
+            };
+
+            await _s3Client.DeleteObjectAsync(deleteRequest);
+
+        }
+
     }
 }
 

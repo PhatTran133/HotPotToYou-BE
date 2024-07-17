@@ -5,7 +5,7 @@ using Service.Order;
 
 namespace HotPotToYou.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1")]
     [ApiController]
     public class OrderController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace HotPotToYou.Controllers
             _orderService = orderService;
         }
 
-        [HttpPost]
+        [HttpPost("order")]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequestModel order)
         {
             if (!ModelState.IsValid)
@@ -29,7 +29,7 @@ namespace HotPotToYou.Controllers
                 return BadRequest(result);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("order")]
         public async Task<IActionResult> UpdateOrder(int id, [FromBody] UpdateOrderRequestModel order)
         {
             if (!ModelState.IsValid)
@@ -45,7 +45,7 @@ namespace HotPotToYou.Controllers
                 return BadRequest(result);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("order")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
             var result = await _orderService.DeleteOrder(id);
@@ -84,7 +84,7 @@ namespace HotPotToYou.Controllers
             return Ok(orders);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("get-order-by-id")]
         public async Task<IActionResult> GetOrderByID(int id)
         {
             var order = await _orderService.GetOrderByID(id);

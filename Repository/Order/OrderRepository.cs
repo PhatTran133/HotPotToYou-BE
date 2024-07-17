@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Repository.DbContexts;
 using Repository.Entity;
 using Repository.Models.RequestModels.Order;
+using Repository.Models.ResponseModels;
 using Repository.Service.Paging;
 using Service.CurrentUser;
 using System;
@@ -41,7 +42,7 @@ namespace Repository.Order
                 TotalPrice = orderRequest.TotalPrice,
                 Status = true,
                 PaymentID = orderRequest.PaymentID,
-                PaymentStatus = orderRequest.PaymentStatus,
+                PaymentStatus = "Chưa hoàn thành",
                 CreateByID = _currentUserService.UserId,
                 CreateDate = DateTime.Now
             };
@@ -100,6 +101,8 @@ namespace Repository.Order
                 DateTime = DateTime.Now,
             };
 
+            _context.OrderActivity.Add(orderActivity);
+
             if (await _context.SaveChangesAsync() > 0)
                 return "Create Order Successfully";
             else
@@ -156,7 +159,7 @@ namespace Repository.Order
         public async Task<List<OrderResponseModel>> GetWaitForPayOrders(string? search, string? sortBy,
             DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
         {
-            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đang chờ thanh toán"));
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đang chờ thanh toán"));
 
             // Search by address
             if (!string.IsNullOrEmpty(search))
@@ -194,7 +197,7 @@ namespace Repository.Order
         public async Task<List<OrderResponseModel>> GetPendingOrders(string? search, string? sortBy,
            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
         {
-            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đang chờ xác nhận"));
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đang chờ xác nhận"));
 
             // Search by address
             if (!string.IsNullOrEmpty(search))
@@ -232,7 +235,7 @@ namespace Repository.Order
         public async Task<List<OrderResponseModel>> GetInProcessOrders(string? search, string? sortBy,
            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
         {
-            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đang vận chuyển"));
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đang vận chuyển"));
 
             // Search by address
             if (!string.IsNullOrEmpty(search))
@@ -270,7 +273,7 @@ namespace Repository.Order
         public async Task<List<OrderResponseModel>> GetDeliveredOrders(string? search, string? sortBy,
            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
         {
-            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đã giao hàng"));
+            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đã giao hàng"));
 
             // Search by address
             if (!string.IsNullOrEmpty(search))
@@ -305,14 +308,71 @@ namespace Repository.Order
 
             return _mapper.Map<List<OrderResponseModel>>(paginatedOrders);
         }
-        public async Task<OrderResponseModel> GetOrderByID(int id)
+        public async Task<OrderDetailResponseModel> GetOrderByID(int id)
         {
-            var order = await _context.Order.Include(x => x.Customer).SingleOrDefaultAsync(x => x.ID == id);
+            var order = await _context.Order
+                .Include(x => x.Customer)
+                .Include(x => x.HotPotPackages) // Nạp các món hotpot
+                    .ThenInclude(hp => hp.HotPot)
+                .Include(x => x.OrderUtensils) // Nạp các dụng cụ
+                    .ThenInclude(ou => ou.Utensil)
+                .SingleOrDefaultAsync(x => x.ID == id);
+
             if (order == null)
                 throw new Exception("Order is not found");
 
-            return _mapper.Map<OrderResponseModel>(order);
+            var orderResponse = new OrderDetailResponseModel
+            {
+                PurchaseDate = order.PurchaseDate,
+                CustomerID = order.CustomerID,
+                Adress = order.Adress,
+                TotalPrice = order.TotalPrice,
+                PaymentID = order.PaymentID,
+                PaymentStatus = order.PaymentStatus,
+                Items = new List<OrderItemResponse>()
+            };
+
+            foreach (var hotpotPackage in order.HotPotPackages)
+            {
+                orderResponse.Items.Add(new OrderItemResponse
+                {
+                    Type = "hotpot",
+                    Id = hotpotPackage.HotPotID,
+                    Quantity = hotpotPackage.Quantity,
+                    Total = hotpotPackage.Total,
+                    IsPackage = false // You may need to adjust this based on your data model
+                });
+            }
+
+            foreach (var utensilDetail in order.OrderUtensils)
+            {
+                if (utensilDetail.UtensilID != 0)
+                {
+                    orderResponse.Items.Add(new OrderItemResponse
+                    {
+                        Type = "utensil",
+                        Id = utensilDetail.UtensilID,
+                        Quantity = utensilDetail.Quantity,
+                        Total = utensilDetail.Total,
+                        IsPackage = false // Adjust based on your data model
+                    });
+                }
+                else if (utensilDetail.UtensilPackageID != 0)
+                {
+                    orderResponse.Items.Add(new OrderItemResponse
+                    {
+                        Type = "utensil",
+                        Id = utensilDetail.UtensilPackageID,
+                        Quantity = utensilDetail.Quantity,
+                        Total = utensilDetail.Total,
+                        IsPackage = true // Adjust based on your data model
+                    });
+                }
+            }
+
+            return _mapper.Map<OrderDetailResponseModel>(orderResponse); 
         }
-    
+
+
     }
 }

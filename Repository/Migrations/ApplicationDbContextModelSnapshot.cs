@@ -556,6 +556,9 @@ namespace Repository.Migrations
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("OrderCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("PaymentID")
                         .HasColumnType("int");
 
