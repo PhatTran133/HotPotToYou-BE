@@ -11,7 +11,7 @@ using Service.HotPotType;
 namespace HotPotToYou.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1")]
     public class ActivityTypeController : ControllerBase
     {
         private readonly IActivityTypeService _activityTypeService;
@@ -21,7 +21,7 @@ namespace HotPotToYou.Controllers
             _activityTypeService = activityTypeService;
         }
 
-        [HttpPost]
+        [HttpPost("acivity-type")]
         public async Task<IActionResult> Add(ActivityTypeModel model)
         {
             try
@@ -37,7 +37,7 @@ namespace HotPotToYou.Controllers
             
         }
 
-        [HttpPut]
+        [HttpPut("acivity-type")]
         public async Task<IActionResult> Update(ActivityTypeRequest model)
         {
             try
@@ -51,7 +51,7 @@ namespace HotPotToYou.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("acivity-type")]
         public async Task<IActionResult> Delete(int id)
         {
             try
