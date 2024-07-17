@@ -18,10 +18,10 @@ namespace Repository.Entity
         public int OrderID { get; set; }
         [ForeignKey(nameof(OrderID))]
         public virtual OrderEntity Order { get; set; }
-        public int UtensilPackageID { get; set; }
+        public int? UtensilPackageID { get; set; }
         [ForeignKey(nameof(UtensilPackageID))]
         public virtual UtensilPackageEntity UtensilPackage { get; set; }
-        public int UtensilID { get; set; }
+        public int? UtensilID { get; set; }
         [ForeignKey(nameof(UtensilID))]
         public virtual UtensilEntity Utensil { get; set; }
         public int Quantity { get; set; }

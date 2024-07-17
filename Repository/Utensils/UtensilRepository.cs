@@ -35,9 +35,7 @@ namespace Repository.Utensils
         //tạo NỒI và DỤNG CỤ
         public async Task<string> CreateUtensil (CreateUtensilRequestModel utensil)
         {
-            var checkUtensil = await _context.Utensil.AnyAsync(x => x.Name == utensil.Name && x.DeleteDate == null);
-            if (checkUtensil) 
-                throw new Exception("Utensil is already exist");
+
 
             var newUtensil = new UtensilEntity()
             {
@@ -47,6 +45,7 @@ namespace Repository.Utensils
                 Quantity = utensil.Quantity,
                 Price = utensil.Price,
                 Type = utensil.Type,
+                ImageUrl = utensil.ImageUrl,
                 CreateByID = _currentUserService.UserId,
                 CreateDate = DateTime.Now
             };
@@ -76,6 +75,7 @@ namespace Repository.Utensils
                 checkUtensil.Quantity = utensil.Quantity;
                 checkUtensil.Price = utensil.Price;
                 checkUtensil.Type = utensil.Type;
+                checkUtensil.ImageUrl = utensil.ImageUrl;
                 checkUtensil.UpdateByID = _currentUserService.UserId;
                 checkUtensil.UpdateDate = DateTime.Now;
 
