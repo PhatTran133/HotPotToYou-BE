@@ -8,6 +8,7 @@ namespace Repository.Models.ResponseModels
 {
     public class OrderResponseModel
     {
+        public int Id { get; set; }
         public DateTime PurchaseDate { get; set; }
         public string Email { get; set; }
         public string Adress { get; set; }
@@ -18,6 +19,7 @@ namespace Repository.Models.ResponseModels
 
     public class OrderDetailResponseModel
     {
+        public int Id { get; set; }
         public DateTime PurchaseDate { get; set; }
         public string Email { get; set; }
         public string Adress { get; set; }

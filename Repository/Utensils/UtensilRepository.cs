@@ -47,6 +47,7 @@ namespace Repository.Utensils
                 Quantity = utensil.Quantity,
                 Price = utensil.Price,
                 Type = utensil.Type,
+                ImageUrl = utensil.ImageUrl,
                 CreateByID = _currentUserService.UserId,
                 CreateDate = DateTime.Now
             };
@@ -76,6 +77,7 @@ namespace Repository.Utensils
                 checkUtensil.Quantity = utensil.Quantity;
                 checkUtensil.Price = utensil.Price;
                 checkUtensil.Type = utensil.Type;
+                checkUtensil.ImageUrl = utensil.ImageUrl;
                 checkUtensil.UpdateByID = _currentUserService.UserId;
                 checkUtensil.UpdateDate = DateTime.Now;
 
