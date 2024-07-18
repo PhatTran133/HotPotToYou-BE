@@ -50,11 +50,7 @@ namespace Repository.Order
             _context.Order.Add(order);
             await _context.SaveChangesAsync();
 
-            var tempUtensil = await _context.Utensil.SingleOrDefaultAsync(x => x.Name.Equals("temp data"));
-
             var tempUtensilPackage = await _context.UtensilPackage.SingleOrDefaultAsync(x => x.ID == 1);
-
-
             if (tempUtensilPackage == null)
             {
                 var utensilPackage = new UtensilPackageEntity()
@@ -64,17 +60,8 @@ namespace Repository.Order
                 };
                 _context.UtensilPackage.Add(utensilPackage);
                 await _context.SaveChangesAsync();
-
-                var newUtensilDetail = new UtensilDetailEntity()
-                {
-                    UtensilID = tempUtensil.ID,
-                    PackageID = utensilPackage.ID
-                };
-
-                _context.UtensilDetail.Add(newUtensilDetail);
-                await _context.SaveChangesAsync();
+                tempUtensilPackage = utensilPackage;
             }
-
 
             foreach (var item in orderRequest.Items)
             {
@@ -91,19 +78,20 @@ namespace Repository.Order
                 }
                 else if (item.Type == "utensil")
                 {
-
                     var utensilDetail = new OrderUtensilEntity()
                     {
                         OrderID = order.ID,
                         UtensilID = item.Id,
-                        UtensilPackageID = tempUtensilPackage.ID,
+                        UtensilPackageID = null,
                         Quantity = item.Quantity,
                         Total = item.Total
                     };
                     _context.OrderUtensil.Add(utensilDetail);
-
+                    Console.WriteLine($"Added utensil: ID = {utensilDetail.UtensilID}, Quantity = {utensilDetail.Quantity}, Total = {utensilDetail.Total}");
                 }
             }
+
+            await _context.SaveChangesAsync();
 
             var orderActivityID = await _context.ActivityType.FirstOrDefaultAsync(x => x.Name.Equals("Đang chờ xác nhận"));
 
@@ -121,6 +109,7 @@ namespace Repository.Order
             else
                 return "Create Order Failed";
         }
+
 
         public async Task<string> UpdateOrder(UpdateOrderRequestModel order)
         {
@@ -554,7 +543,7 @@ namespace Repository.Order
                 {
                     orderResponse.Items.Add(new OrderItemResponse
                     {
-                        Type = "Utensil",
+                        Type = "Pot",
                         Id = utensilDetail.UtensilID,
                         Quantity = utensilDetail.Quantity,
                         Total = utensilDetail.Total,
@@ -564,8 +553,8 @@ namespace Repository.Order
                 {
                     orderResponse.Items.Add(new OrderItemResponse
                     {
-                        Type = "Pot",
-                        Id = utensilDetail.UtensilPackageID,
+                        Type = "Utensil",
+                        Id = utensilDetail.UtensilID,
                         Quantity = utensilDetail.Quantity,
                         Total = utensilDetail.Total,
                     });
