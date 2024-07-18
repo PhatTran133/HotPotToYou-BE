@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Project C#\\SWD392\\HotPotToYou\\HotPotToYou\\HotPotToYou.csproj": {}
+    "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\HotPotToYou\\HotPotToYou.csproj": {}
   },
   "projects": {
-    "D:\\Project C#\\SWD392\\HotPotToYou\\HotPotToYou\\HotPotToYou.csproj": {
+    "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\HotPotToYou\\HotPotToYou.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Project C#\\SWD392\\HotPotToYou\\HotPotToYou\\HotPotToYou.csproj",
+        "projectUniqueName": "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\HotPotToYou\\HotPotToYou.csproj",
         "projectName": "HotPotToYou",
-        "projectPath": "D:\\Project C#\\SWD392\\HotPotToYou\\HotPotToYou\\HotPotToYou.csproj",
-        "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
-        "outputPath": "D:\\Project C#\\SWD392\\HotPotToYou\\HotPotToYou\\obj\\",
+        "projectPath": "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\HotPotToYou\\HotPotToYou.csproj",
+        "packagesPath": "C:\\Users\\ryy15\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\HotPotToYou\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ryy15\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,17 +26,18 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Project C#\\SWD392\\HotPotToYou\\Repository\\Repository.csproj": {
-                "projectPath": "D:\\Project C#\\SWD392\\HotPotToYou\\Repository\\Repository.csproj"
+              "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\Repository\\Repository.csproj": {
+                "projectPath": "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\Repository\\Repository.csproj"
               },
-              "D:\\Project C#\\SWD392\\HotPotToYou\\Service\\Service.csproj": {
-                "projectPath": "D:\\Project C#\\SWD392\\HotPotToYou\\Service\\Service.csproj"
+              "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\Service\\Service.csproj": {
+                "projectPath": "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\Service\\Service.csproj"
               }
             }
           }
@@ -41,6 +46,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -107,21 +117,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Project C#\\SWD392\\HotPotToYou\\Repository\\Repository.csproj": {
+    "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\Repository\\Repository.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Project C#\\SWD392\\HotPotToYou\\Repository\\Repository.csproj",
+        "projectUniqueName": "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\Repository\\Repository.csproj",
         "projectName": "Repository",
-        "projectPath": "D:\\Project C#\\SWD392\\HotPotToYou\\Repository\\Repository.csproj",
-        "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
-        "outputPath": "D:\\Project C#\\SWD392\\HotPotToYou\\Repository\\obj\\",
+        "projectPath": "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\Repository\\Repository.csproj",
+        "packagesPath": "C:\\Users\\ryy15\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\Repository\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ryy15\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -129,6 +143,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -141,6 +156,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -208,21 +228,25 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Project C#\\SWD392\\HotPotToYou\\Service\\Service.csproj": {
+    "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\Service\\Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Project C#\\SWD392\\HotPotToYou\\Service\\Service.csproj",
+        "projectUniqueName": "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\Service\\Service.csproj",
         "projectName": "Service",
-        "projectPath": "D:\\Project C#\\SWD392\\HotPotToYou\\Service\\Service.csproj",
-        "packagesPath": "C:\\Users\\pc\\.nuget\\packages\\",
-        "outputPath": "D:\\Project C#\\SWD392\\HotPotToYou\\Service\\obj\\",
+        "projectPath": "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\Service\\Service.csproj",
+        "packagesPath": "C:\\Users\\ryy15\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\Service\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\pc\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ryy15\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -230,14 +254,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\Project C#\\SWD392\\HotPotToYou\\Repository\\Repository.csproj": {
-                "projectPath": "D:\\Project C#\\SWD392\\HotPotToYou\\Repository\\Repository.csproj"
+              "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\Repository\\Repository.csproj": {
+                "projectPath": "C:\\Users\\ryy15\\OneDrive\\Desktop\\FPTU\\SWD\\HotPotToYou-BE\\Repository\\Repository.csproj"
               }
             }
           }
@@ -246,6 +271,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -273,7 +303,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
         }
       }
     }
