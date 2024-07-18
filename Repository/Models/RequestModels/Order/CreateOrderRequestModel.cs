@@ -22,7 +22,6 @@ namespace Repository.Models.RequestModels.Order
         public int Id { get; set; }
         public int Quantity { get; set; }
         public decimal Total {  get; set; }
-        public bool IsPackage { get; set; }
     }
 
     public class UpdateOrderRequestModel : CreateOrderRequestModel

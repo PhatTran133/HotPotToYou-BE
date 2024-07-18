@@ -10,7 +10,6 @@ namespace Repository.Models.ResponseModels
     {
         public int Id { get; set; }
         public DateTime PurchaseDate { get; set; }
-        public string Email { get; set; }
         public string Adress { get; set; }
         public decimal TotalPrice { get; set; }
         public string Payment { get; set; }
@@ -37,6 +36,7 @@ namespace Repository.Models.ResponseModels
         public string Type { get; set; }
         public int Quantity { get; set; }
         public decimal Total { get; set; }
+        public string ImageUrl { get; set; }
     }
 
     public class Activity
