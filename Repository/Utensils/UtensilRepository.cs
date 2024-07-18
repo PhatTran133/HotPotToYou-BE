@@ -65,10 +65,6 @@ namespace Repository.Utensils
                 if (checkUtensil == null)
                     throw new Exception("Utensil is not found");
 
-                var checkUtensilName = await _context.Utensil.AnyAsync(x => x.Name == utensil.Name && x.ID != utensil.ID && x.DeleteDate == null);
-                if (checkUtensilName)
-                    throw new Exception("Utensil is already exist");
-
                 checkUtensil.Name = utensil.Name;
                 checkUtensil.Material = utensil.Material;
                 checkUtensil.Size = utensil.Size;

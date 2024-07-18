@@ -15,7 +15,6 @@ namespace Repository.Order
         public OrderMappingProfile()
         {
             CreateMap<OrderEntity, OrderResponseModel>()
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Customer.Email))
                 .ForMember(dest => dest.Payment, opt => opt.MapFrom(src => src.Payment.Name));
 
 

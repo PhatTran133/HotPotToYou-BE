@@ -201,6 +201,11 @@ namespace Repository.Order
         {
             IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.Status == true && x.OrderStatus.Equals("Đang chờ xác nhận"));
 
+            foreach (var order in orders)
+            {
+                _context.Entry(order).Reference(x => x.Customer).Load();
+            }
+
             // Search by address
             if (!string.IsNullOrEmpty(search))
             {
@@ -534,6 +539,7 @@ namespace Repository.Order
                     Id = hotpotPackage.HotPotID,
                     Quantity = hotpotPackage.Quantity,
                     Total = hotpotPackage.Total,
+                    ImageUrl = hotpotPackage.HotPot.ImageUrl
                 });
             }
 
@@ -547,6 +553,7 @@ namespace Repository.Order
                         Id = utensilDetail.UtensilID,
                         Quantity = utensilDetail.Quantity,
                         Total = utensilDetail.Total,
+                        ImageUrl = utensilDetail.Utensil.ImageUrl
                     });
                 }
                 else if (utensilDetail.Utensil.Type.Equals("utensil"))
@@ -557,6 +564,7 @@ namespace Repository.Order
                         Id = utensilDetail.UtensilID,
                         Quantity = utensilDetail.Quantity,
                         Total = utensilDetail.Total,
+                        ImageUrl = utensilDetail.Utensil.ImageUrl
                     });
                 }
             }
