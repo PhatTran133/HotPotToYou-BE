@@ -540,10 +540,13 @@ namespace Repository.Order
 
         }
 
-        public async Task<List<OrderResponseModel>> GetDeliveredOrdersByCustomerID(int customerID,string? search, string? sortBy,
-           DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+        public async Task<List<OrderResponseModel>> GetDeliveredOrdersByCustomerID(int customerID, string? search, string? sortBy,
+     DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
         {
-            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.CustomerID == customerID && x.Status == true && x.OrderStatus.Equals("Đã giao hàng"));
+            IQueryable<OrderEntity> orders = _context.Order
+                .Include(x => x.Customer)
+                .Include(x => x.Payment)
+                .Where(x => x.CustomerID == customerID && x.Status == true && x.OrderStatus.Equals("Đã giao hàng"));
 
             // Search by address
             if (!string.IsNullOrEmpty(search))
@@ -574,14 +577,31 @@ namespace Repository.Order
                 }
             }
 
-            var paginatedOrders = PaginatedList<OrderEntity>.Create(orders, pageIndex, pageSize);
+            // Project to OrderResponseModel
+            var query = orders.Select(o => new OrderResponseModel
+            {
+                Id = o.ID,
+                PurchaseDate = o.PurchaseDate,
+                Adress = o.Adress,
+                TotalPrice = o.TotalPrice,
+                OrderStatus = o.OrderStatus,
+                Email = o.Customer.Email,
+                Payment = o.Payment.Name
+            });
 
-            return _mapper.Map<List<OrderResponseModel>>(paginatedOrders);
+            var or = await query.ToListAsync();
+            var orderResponseModels = _mapper.Map<List<OrderResponseModel>>(or);
+
+            return orderResponseModels;
         }
-        public async Task<List<OrderResponseModel>> GetCanceledOrdersByCustomerID(int customerID,string? search, string? sortBy,
-           DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+
+        public async Task<List<OrderResponseModel>> GetCanceledOrdersByCustomerID(int customerID, string? search, string? sortBy,
+     DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
         {
-            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.CustomerID == customerID && x.Status == true && x.OrderStatus.Equals("Đã hủy"));
+            IQueryable<OrderEntity> orders = _context.Order
+                .Include(x => x.Customer)
+                .Include(x => x.Payment)
+                .Where(x => x.CustomerID == customerID && x.Status == true && x.OrderStatus.Equals("Đã hủy"));
 
             // Search by address
             if (!string.IsNullOrEmpty(search))
@@ -612,10 +632,24 @@ namespace Repository.Order
                 }
             }
 
-            var paginatedOrders = PaginatedList<OrderEntity>.Create(orders, pageIndex, pageSize);
+            // Project to OrderResponseModel
+            var query = orders.Select(o => new OrderResponseModel
+            {
+                Id = o.ID,
+                PurchaseDate = o.PurchaseDate,
+                Adress = o.Adress,
+                TotalPrice = o.TotalPrice,
+                OrderStatus = o.OrderStatus,
+                Email = o.Customer.Email,
+                Payment = o.Payment.Name
+            });
 
-            return _mapper.Map<List<OrderResponseModel>>(paginatedOrders);
+            var or = await query.ToListAsync();
+            var orderResponseModels = _mapper.Map<List<OrderResponseModel>>(or);
+
+            return orderResponseModels;
         }
+
         public async Task<OrderDetailResponseModel> GetOrderByID(int id)
         {
             var order = await _context.Order
