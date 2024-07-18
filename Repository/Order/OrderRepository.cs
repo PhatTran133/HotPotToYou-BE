@@ -170,43 +170,59 @@ namespace Repository.Order
                 return "Update Order Failed";
         }
         public async Task<List<OrderResponseModel>> GetWaitForPayOrders(string? search, string? sortBy,
-            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
+     DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
         {
-            IQueryable<OrderEntity> orders = _context.Order.Include(x => x.Customer).Include(x => x.Payment).Where(x => x.Status == true && x.OrderActivity.ActivityType.Name.Equals("Đang chờ thanh toán"));
+            var query = _context.Order
+                .Include(o => o.Customer)
+                .Include(o => o.Payment)
+                .Include(o => o.OrderActivity).ThenInclude(oa => oa.ActivityType)
+                .Where(o => o.Status && o.OrderActivity.ActivityType.Name == "Đang chờ thanh toán")
+                .Select(o => new OrderResponseModel
+                {
+                    Id = o.ID,
+                    PurchaseDate = o.PurchaseDate,
+                    Adress = o.Adress,
+                    TotalPrice = o.TotalPrice,
+                    OrderStatus = o.OrderStatus,
+                    Email = o.Customer.Email,
+                    Payment = o.Payment.Name // Assuming Payment.Name is the property representing PaymentMethod
+                });
 
-            // Search by address
+            // Apply search filter
             if (!string.IsNullOrEmpty(search))
             {
-                orders = orders.Where(x => x.Adress.Contains(search));
+                query = query.Where(o => o.Adress.Contains(search));
             }
 
-            // Filter by date range
+            // Apply date range filter
             if (fromDate.HasValue)
             {
-                orders = orders.Where(x => x.PurchaseDate >= fromDate.Value);
+                query = query.Where(o => o.PurchaseDate >= fromDate.Value);
             }
             if (toDate.HasValue)
             {
-                orders = orders.Where(x => x.PurchaseDate <= toDate.Value);
+                query = query.Where(o => o.PurchaseDate <= toDate.Value);
             }
 
-            // Sort by specified field
+            // Apply sorting
             if (!string.IsNullOrEmpty(sortBy))
             {
                 if (sortBy.Equals("ascDate"))
                 {
-                    orders = orders.OrderBy(x => x.PurchaseDate);
+                    query = query.OrderBy(o => o.PurchaseDate);
                 }
                 else if (sortBy.Equals("descDate"))
                 {
-                    orders = orders.OrderByDescending(x => x.PurchaseDate);
+                    query = query.OrderByDescending(o => o.PurchaseDate);
                 }
             }
 
-            var paginatedOrders = PaginatedList<OrderEntity>.Create(orders, pageIndex, pageSize);
+            var orders = await query.ToListAsync();
+            return _mapper.Map<List<OrderResponseModel>>(orders);
 
-            return _mapper.Map<List<OrderResponseModel>>(paginatedOrders);
+            
         }
+
         public async Task<List<OrderResponseModel>> GetPendingOrders(string? search, string? sortBy,
            DateTime? fromDate, DateTime? toDate, int pageIndex, int pageSize)
         {

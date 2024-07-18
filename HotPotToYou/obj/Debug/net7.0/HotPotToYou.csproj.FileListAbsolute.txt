@@ -265,3 +265,5 @@ C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\HotPotToYou\obj\Debug\ne
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\bin\Debug\net7.0\AWSSDK.Core.dll
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\bin\Debug\net7.0\AWSSDK.S3.dll
 D:\Project C#\SWD392\HotPotToYou\HotPotToYou\obj\Debug\net7.0\HotPotToYou.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\HotPotToYou\bin\Debug\net7.0\AWSSDK.Core.dll
+C:\Users\ryy15\OneDrive\Desktop\FPTU\SWD\HotPotToYou-BE\HotPotToYou\bin\Debug\net7.0\AWSSDK.S3.dll

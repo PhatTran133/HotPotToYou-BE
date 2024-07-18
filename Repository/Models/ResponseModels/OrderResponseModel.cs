@@ -10,11 +10,12 @@ namespace Repository.Models.ResponseModels
     {
         public int Id { get; set; }
         public DateTime PurchaseDate { get; set; }
-        public string Email { get; set; }
         public string Adress { get; set; }
         public decimal TotalPrice { get; set; }
-        public string Payment { get; set; }
         public string OrderStatus { get; set; }
+        public string Email { get; set; }
+        public string Payment { get; set; }
+
     }
 
     public class OrderDetailResponseModel
