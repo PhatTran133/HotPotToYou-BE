@@ -6,7 +6,7 @@ using Service.Payment;
 
 namespace HotPotToYou.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1")]
     [ApiController]
     public class PaymentController : ControllerBase
     {
@@ -17,7 +17,7 @@ namespace HotPotToYou.Controllers
             _paymentService = paymentService;
         }
 
-        [HttpPost]
+        [HttpPost("payment")]
         public async Task<IActionResult> Add(PaymentModel model)
         {
             try
@@ -31,7 +31,7 @@ namespace HotPotToYou.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut("payment")]
         public async Task<IActionResult> Update(PaymentRequest model)
         {
             try
@@ -47,7 +47,7 @@ namespace HotPotToYou.Controllers
            
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("payment")]
         public async Task<IActionResult> Delete(int id)
         {
             try

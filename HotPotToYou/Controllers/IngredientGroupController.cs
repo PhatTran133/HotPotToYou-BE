@@ -7,7 +7,7 @@ using Service.IngredientGroup;
 
 namespace HotPotToYou.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1")]
     [ApiController]
     public class IngredientGroupController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace HotPotToYou.Controllers
             _ingredientGroupService = ingredientGroupService;
         }
 
-        [HttpPost]
+        [HttpPost("ingredient-group")]
         public async Task<IActionResult> AddIngredientGroup([FromBody] IngredientGroupModel model)
         {
             try
@@ -32,7 +32,7 @@ namespace HotPotToYou.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("ingredient-group")]
         public async Task<IActionResult> UpdateIngredientGroup(int id, [FromBody] IngredientGroupModel model)
         {
             try
@@ -47,7 +47,7 @@ namespace HotPotToYou.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("ingredient-group")]
         public async Task<IActionResult> DeleteIngredientGroup(int id)
         {
             try

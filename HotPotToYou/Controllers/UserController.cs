@@ -12,7 +12,7 @@ namespace HotPotToYou.Controllers
 {
     [Route("api/v1")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -72,7 +72,7 @@ namespace HotPotToYou.Controllers
                 return BadRequest(new JsonResponse<string>(ex.Message));
             }
         }
-
+        [AllowAnonymous]
         [HttpGet("user/get-user-by-email")]
         public async Task<ActionResult<JsonResponse<UserResponseModel>>> GetUserByEmail(string email)
         {

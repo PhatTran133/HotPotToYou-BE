@@ -12,8 +12,8 @@ using Repository.DbContexts;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240711062210_AddQuantityHotpot")]
-    partial class AddQuantityHotpot
+    [Migration("20240716061910_updateOrder1")]
+    partial class updateOrder1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -559,10 +559,13 @@ namespace Repository.Migrations
                     b.Property<DateTime?>("DeleteDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("OrderCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("PaymentID")
                         .HasColumnType("int");
 
-                    b.Property<string>("PaymentStatus")
+                    b.Property<string>("OrderStatus")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

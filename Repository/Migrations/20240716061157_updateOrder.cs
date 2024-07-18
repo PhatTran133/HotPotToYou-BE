@@ -5,25 +5,25 @@
 namespace Repository.Migrations
 {
     /// <inheritdoc />
-    public partial class AddQuantityHotpot : Migration
+    public partial class updateOrder : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "Quantity",
-                table: "HotPot",
-                type: "int",
+            migrationBuilder.AddColumn<string>(
+                name: "OrderCode",
+                table: "Order",
+                type: "nvarchar(max)",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: "");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Quantity",
-                table: "HotPot");
+                name: "OrderCode",
+                table: "Order");
         }
     }
 }

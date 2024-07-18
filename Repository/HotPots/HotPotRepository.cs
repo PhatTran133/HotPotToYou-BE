@@ -74,7 +74,7 @@ namespace Repository.HotPots
                 throw new InvalidDataException("Hot Pot is not found");
 
             var checkType = await _context.HotPotType.AnyAsync(x => x.ID == hotPot.TypeID && x.DeleteDate == null);
-            if (checkType)
+            if (!checkType)
                 throw new InvalidDataException("Hot Pot Type is not found");
 
             hotPotEntity.Name = hotPot.Name;
